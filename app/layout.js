@@ -1,4 +1,12 @@
 import "./globals.css";
+import { Kanit } from 'next/font/google';
+
+const kanit = Kanit({
+  subsets: ['latin'],
+  weight: ['400'],
+  style: ['normal'],
+  display: 'swap',
+});
 
 export const metadata = {
   title: "QueueCure",
@@ -8,7 +16,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="h-full">
+      <body className={kanit.className}>
         <main>{children}</main>
       </body>
     </html>
