@@ -4,7 +4,7 @@ import { FaHome, FaInfoCircle, FaUserCircle, FaSignInAlt, FaUserPlus, FaBars, Fa
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const [user] = useState(true);
+  const [user] = useState(false);
   const toggleMenu = () => {
     setOpen((prev) => !prev);
   };
