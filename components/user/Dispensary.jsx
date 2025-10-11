@@ -34,9 +34,8 @@ export default function Dispensary() {
 
     return (
     <div className="bg-white flex justify-center items-center p-4 sm:p-8">
-      <div className="w-full max-w-2xl bg-white rounded-2xl shadow-lg border border-gray-200 p-6 sm:p-8">
+      <div className="w-full max-w-5xl bg-white rounded-2xl shadow-lg border border-gray-200 p-6 sm:p-8">
         
-        {/* Patient Data Section */}
         <h2 className="text-center text-3xl font-bold text-gray-800 mb-6">
           Patient Data
         </h2>
@@ -50,16 +49,15 @@ export default function Dispensary() {
           </p>
         </div>
 
-        {/* Medication List Section */}
         <div className="border border-gray-300 rounded-lg p-4 sm:p-6">
           <h3 className="text-center text-xl font-semibold text-gray-800 mb-6">
             รายการยา
           </h3>
-          <div className="flex flex-wrap sm:justify-center gap-4">
+          <div className="flex flex-col items-center sm:flex-row sm:flex-wrap sm:justify-center gap-4">
             {patientData.medications.map((med, index) => (
               <div
                 key={index}
-                className="bg-indigo-500 text-white rounded-lg p-3 shadow-md w-60 flex justify-between items-center"
+                className="bg-indigo-500 text-white rounded-lg p-3 shadow-md w-full sm:w-60 flex justify-between items-center"
               >
                 <span className="font-semibold">{med.name}</span>
                 <span className="bg-indigo-400 text-xs font-bold px-2 py-1 rounded-full">{med.amount}</span>
@@ -68,7 +66,6 @@ export default function Dispensary() {
           </div>
         </div>
 
-        {/* Confirm Button */}
         <div className="text-center mt-8">
           <button
             className="bg-green-500 text-white font-bold py-3 px-12 rounded-lg shadow-md hover:bg-green-600 transition-transform transform hover:scale-105"
