@@ -41,7 +41,7 @@ export default function AllQueue() {
                     </thead>
                     <tbody className="divide-y divide-gray-200">
                         {queueData.map((item) => (
-                            <tr>
+                            <tr key={item.id}>
                                 <td className="py-4 px-4">
                                     <div className="px-4 py-2 inline-block bg-gradient-to-br from-blue-500 to-blue-600 text-white font-bold rounded-lg shadow-sm tracking-wide">{item.id}</div>
                                 </td>
