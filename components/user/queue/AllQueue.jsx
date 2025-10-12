@@ -25,7 +25,7 @@ export default function AllQueue() {
                     <FaAngleDoubleRight size={24} className="drop-shadow-lg" />
                     <span className="tracking-wider">รายการคิวทั้งหมด</span>
                 </div>
-                <LuRefreshCcw className="drop-shadow-lg drop-shadow-gray-700" />
+                <LuRefreshCcw className="drop-shadow-xl drop-shadow-gray-700" />
 
             </div>
             <QueueStatus />
