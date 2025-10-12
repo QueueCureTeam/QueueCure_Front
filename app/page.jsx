@@ -1,23 +1,21 @@
-"use client";
-import { useState } from "react";
+import Header from "../components/common/Header";
+import CurrentQueue from "../components/user/queue/CurrentQueue";
+import AllQueue from "../components/user/queue/AllQueue";
 
-import CurrentQueue from "../components/user/CurrentQueue.jsx";
-import QueueTable from "../components/user/QueueTable.jsx";
-
-export default function Home() {
-  const [user] = useState(true);
+export default function MainPage() {
   return (
     <>
-      <CurrentQueue/>
-      <QueueTable />
-      {user && (
-        <>
-          <div className="text-center mb-6">
-            <h2 className="text-3xl font-semibold text-blue-900">คิวรับยาของท่าน</h2>
+      <Header />
+      <div className="px-8 py-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-4 md:space-x-8 space-y-4">
+          <div className="md:col-span-2 lg:col-span-1">
+            <CurrentQueue />
           </div>
-          <QueueTable />
-        </>
-      )}
+          <div className="md:col-span-2 lg:col-span-3">
+            <AllQueue />
+          </div>
+        </div>
+      </div>
     </>
   );
 }

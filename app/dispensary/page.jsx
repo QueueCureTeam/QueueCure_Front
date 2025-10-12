@@ -1,4 +1,4 @@
-import Dispensary from '../../components/user/Dispensary';
+import Dispensary from '../../components/user/dispenser/Dispensary';
 
 export default function DispensaryPage() {
   return (

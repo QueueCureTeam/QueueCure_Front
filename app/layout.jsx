@@ -1,6 +1,6 @@
 import "./globals.css";
 import { Kanit } from 'next/font/google';
-import Navbar from "../components/user/Navbar";
+import Navbar from "../components/common/Navbar";
 
 const kanit = Kanit({
   subsets: ['latin'],
