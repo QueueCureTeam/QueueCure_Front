@@ -16,12 +16,12 @@ export default function CurrentQueue() {
                 </div>
                 <div className="p-6 text-center bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl border-2 border-blue-200 tracking-wide">
                     <div className="pb-4 space-y-1.5">
-                        <div className="text-sm text-gray-600">เวลาที่คาดการ</div>
+                        <div className="text-sm text-gray-600">เวลาที่คาดการณ์</div>
                         <div className="text-3xl font-bold text-green-600">12:05</div>
                     </div>
                     <div className="pt-4 border-t border-blue-200 space-y-1.5">
                         <div className="text-sm text-gray-600">เหลือเวลาอีกประมาณ</div>
-                        <div className="text-2xl font-bold text-yellow-600">5 นาที</div>
+                        <div className="text-2xl font-bold text-orange-500">5 นาที</div>
                     </div>
                 </div>
                 <div className="text-center pt-4 border-t border-gray-200 space-y-1.5 tracking-wide">

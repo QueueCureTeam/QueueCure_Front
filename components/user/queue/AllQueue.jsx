@@ -26,10 +26,8 @@ export default function AllQueue() {
                     <span className="tracking-wider">รายการคิวทั้งหมด</span>
                 </div>
                 <LuRefreshCcw className="drop-shadow-xl drop-shadow-gray-700" />
-
             </div>
             <QueueStatus />
-
             <div className="overflow-x-auto">
                 <table className="w-full text-center text-gray-700">
                     <thead className="bg-blue-100 text-blue-900 font-bold tracking-wider">

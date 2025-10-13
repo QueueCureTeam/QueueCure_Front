@@ -21,7 +21,7 @@ export default function StatusBadge({status}) {
     }
     return (
         <div className="text-center">
-            <div className={`px-4 py-2 inline-flex items-center gap-2 justify-center justify-self-center text-sm border rounded-full animate-pulse ${bgColor}`}>
+            <div className={`px-4 py-2 inline-flex items-center gap-2 justify-center justify-self-center text-sm border rounded-full ${bgColor}`}>
                 <div className={`h-2.5 w-2.5 rounded-full ${dotColor}`}></div>
                 <span>{text}</span>
             </div>
