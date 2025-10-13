@@ -24,11 +24,11 @@ export default function Navbar() {
           </a>
           {!user ? (
             <>
-              <a href="#" className="flex items-center gap-2 rounded-xl px-3 py-2 text-shadow-xs text-shadow-blue-800 hover:bg-white/10 hover:shadow-lg transition-all duration-200">
+              <a href="http://localhost:3000/auth/login" className="flex items-center gap-2 rounded-xl px-3 py-2 text-shadow-xs text-shadow-blue-800 hover:bg-white/10 hover:shadow-lg transition-all duration-200">
                 <FaSignInAlt />
                 <span>เข้าสู่ระบบ</span>
               </a>
-              <a href="#" className="flex items-center gap-2 rounded-xl px-3 py-2 bg-white/20 text-gray-100 shadow-lg hover:bg-white hover:text-blue-600 transition-all duration-200">
+              <a href="http://localhost:3000/auth/login" className="flex items-center gap-2 rounded-xl px-3 py-2 bg-white/20 text-gray-100 shadow-lg hover:bg-white hover:text-blue-600 transition-all duration-200">
                 <FaUserPlus />
                 <span>สมัครสมาชิก</span>
               </a>
