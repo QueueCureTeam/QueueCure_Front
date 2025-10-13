@@ -1,47 +1,34 @@
-export default function QueueTable() {
+import StatusBadge from "../../common/StatusBadge";
+
+export default function QueueTable({ data, showButton = true }) {
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full text-center text-gray-700">
-        <thead className="bg-blue-100 text-blue-900 uppercase text-sm">
-          <tr>
-            <th className="py-3 px-4 font-semibold w-1/3">รายการคิว</th>
-            <th className="py-3 px-4 font-semibold w-1/3">สถานะ</th>
-            <th className="py-3 px-4 font-semibold w-1/3">เวลาโดยประมาณ</th>
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-gray-200 text-base">
-          <tr className="hover:bg-blue-50 transition-all duration-200">
-            <td className="py-4 px-4 font-medium">A001</td>
+    <table className="w-full text-center text-gray-700 border-l border-gray-200">
+      <thead className="bg-blue-100 text-blue-900 font-bold tracking-wider">
+        <tr>
+          <th className="py-3 px-4 w-1/4">รายการคิว</th>
+          <th className="py-3 px-4 w-1/4">สถานะ</th>
+          <th className="py-3 px-4 w-1/4">เวลาโดยประมาณ</th>
+          {showButton && <th className="py-3 px-4 w-1/4">รายละเอียดคิว</th>}
+        </tr>
+      </thead>
+      <tbody className="divide-y divide-gray-200">
+        {data.map((item) => (
+          <tr key={item.id}>
             <td className="py-4 px-4">
-              <span className="inline-flex items-center gap-2 text-green-700 font-medium">
-                <span className="h-2.5 w-2.5 bg-green-500 rounded-full animate-pulse shadow-sm"></span>
-                ถึงคิวแล้ว
-              </span>
+              <div className="px-4 py-2 inline-block bg-gradient-to-br from-blue-500 to-blue-600 text-white font-bold rounded-lg shadow-sm tracking-wide">{item.id}</div>
             </td>
-            <td className="py-4 px-4 text-gray-600">-</td>
-          </tr>
-          <tr className="hover:bg-blue-50 transition-all duration-200">
-            <td className="py-4 px-4 font-medium">A002</td>
             <td className="py-4 px-4">
-              <span className="inline-flex items-center gap-2 text-yellow-600 font-medium">
-                <span className="h-2.5 w-2.5 bg-yellow-400 rounded-full animate-pulse shadow-sm"></span>
-                กำลังจัดเตรียม
-              </span>
+              <StatusBadge status={item.type} />
             </td>
-            <td className="py-4 px-4 text-gray-600">5 นาที</td>
+            <td className="py-4 px-4 text-gray-600">{item.time}</td>
+            {showButton && (
+              <td className="py-4 px-4 text-center">
+                <button className="px-4 py-2 border-2 border-blue-400 text-blue-600 hover:bg-blue-50 font-medium rounded-lg shadow-sm transition-all duration-200">รายละเอียด</button>
+              </td>
+            )}
           </tr>
-          <tr className="hover:bg-blue-50 transition-all duration-200">
-            <td className="py-4 px-4 font-medium">A003</td>
-            <td className="py-4 px-4">
-              <span className="inline-flex items-center gap-2 text-red-700 font-medium">
-                <span className="h-2.5 w-2.5 bg-red-500 rounded-full shadow-sm"></span>
-                อยู่ในคิว
-              </span>
-            </td>
-            <td className="py-4 px-4 text-gray-600">5 นาที</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+        ))}
+      </tbody>
+    </table>
   );
 }
