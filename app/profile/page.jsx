@@ -11,7 +11,8 @@ export default function ProfilePage() {
     NationalID: "",
     PhoneNumber: "",
     Address: "",
-    Email: "",
+    Age: "",
+    Gender: "",
     ProfileImage: "",
   });
   const [loading, setLoading] = useState(true);
@@ -38,6 +39,7 @@ export default function ProfilePage() {
           NationalID: "",
           PhoneNumber: "",
           Address: "",
+          Age: "",
           Gender: "",
           ProfileImage: "",
         });
@@ -93,12 +95,13 @@ export default function ProfilePage() {
               { label: "เลขบัตรประชาชน", key: "NationalID" },
               { label: "เบอร์โทรศัพท์", key: "PhoneNumber" },
               { label: "ที่อยู่", key: "Address" },
+              { label: "อายุ", key: "Age", type: "number"},
             ].map((field) => (
               <div key={field.key} className="flex justify-between items-center">
                 <span className="font-medium">{field.label}</span>
                 <div className="relative w-56">
                   <input
-                    type="text"
+                    type={field.type || "text"}                    
                     name={field.key}
                     value={profile[field.key] || ""}
                     className="w-56 px-3 ml-2 py-1 pr-8 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"

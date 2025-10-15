@@ -14,7 +14,7 @@ export default function Navbar() {
           <img src="#" alt="logo" className="size-8 drop-shadow-xl" />
         </div>
         <div className="hidden sm:flex gap-3">
-          <a href="#" className="flex items-center gap-2 rounded-xl px-3 py-2 text-shadow-xs text-shadow-blue-800 hover:bg-white/10 hover:shadow-lg transition-all duration-200">
+          <a href="/" className="flex items-center gap-2 rounded-xl px-3 py-2 text-shadow-xs text-shadow-blue-800 hover:bg-white/10 hover:shadow-lg transition-all duration-200">
             <FaHome />
             <span>หน้าหลัก</span>
           </a>

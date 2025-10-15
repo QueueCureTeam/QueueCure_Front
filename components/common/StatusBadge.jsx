@@ -18,6 +18,11 @@ export default function StatusBadge({status}) {
             dotColor = "bg-red-500"
             text = "อยู่ในคิว";
             break;
+        default: 
+            bgColor = "bg-gray-50 border-gray-200 text-gray-700";
+            dotColor = "bg-gray-400";
+            text = "ไม่ทราบสถานะ";
+            break;
     }
     return (
         <div className="text-center">
