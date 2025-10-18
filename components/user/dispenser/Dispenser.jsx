@@ -4,11 +4,12 @@ import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { IoArrowBack } from "react-icons/io5";
 import { FaSearch } from "react-icons/fa";
+import Link from "next/link";
 import axios from "axios";
 
 export default function PatientDispenseTable() {
   const { id } = useParams();
-  const [drugs, setDrugs] = useState([]); // ข้อมูลยาทั้งหมดจาก backend
+  const [drugs, setDrugs] = useState([]); 
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredDrugs, setFilteredDrugs] = useState([]);
   const [dispenseInputs, setDispenseInputs] = useState({});
@@ -17,7 +18,6 @@ export default function PatientDispenseTable() {
 
   const patientData = id;
 
-  // 🧠 โหลดข้อมูลยาจาก backend
   useEffect(() => {
     const fetchDrugs = async () => {
       try {
@@ -51,7 +51,6 @@ export default function PatientDispenseTable() {
     fetchDrugs();
   }, []);
 
-  // 🔍 ฟิลเตอร์ค้นหายา
   useEffect(() => {
     if (!searchTerm) {
       setFilteredDrugs(drugs);
@@ -63,7 +62,6 @@ export default function PatientDispenseTable() {
     }
   }, [searchTerm, drugs]);
 
-  // ✏️ handle input change
   const handleInputChange = (drugId, field, value) => {
     setDispenseInputs((prev) => ({
       ...prev,
@@ -74,34 +72,26 @@ export default function PatientDispenseTable() {
     }));
   };
 
-  // 💊 ปุ่ม “จ่ายยา” (สามารถเปลี่ยนเป็น POST ไป backend ได้)
-  const handleDispense = async (drugId) => {
-    const dispenseData = dispenseInputs[drugId];
-    const drug = drugs.find((d) => d.DrugID === drugId);
+  
+  const handleDispense = (drugId) => {
+  const dispenseData = dispenseInputs[drugId];
+  const drug = drugs.find((d) => d.DrugID === drugId);
+  if (!drug) return;
 
-    if (!drug) return;
+  const existingData = JSON.parse(sessionStorage.getItem("prescriptions") || "[]");
 
-    // ส่งข้อมูลไป backend (ตัวอย่าง)
-    try {
-      const res = await axios.post(`http://localhost:3000/api/dispense`, {
-        patientId: patientData.id,
-        drugId,
-        quantity: dispenseData.quantity,
-        dosage: dispenseData.dosage,
-      }, {
-        headers: {
-          "Authorization": `Bearer ${localStorage.getItem("id_token")}`,
-          "Content-Type": "application/json",
-        },
-      });
-
-      alert(`✅ จ่ายยา ${drug.Name} จำนวน ${dispenseData.quantity} สำเร็จ`);
-      console.log("Response:", res.data);
-    } catch (err) {
-      console.error("Dispense error:", err);
-      alert("❌ จ่ายยาไม่สำเร็จ กรุณาลองใหม่");
-    }
+  const newPrescription = {
+    drugId: drug.DrugID,
+    name: drug.Name,
+    quantity: Number(dispenseData.quantity),
+    dosage: dispenseData.dosage,
   };
+
+  const updatedData = [...existingData, newPrescription];
+  sessionStorage.setItem("prescriptions", JSON.stringify(updatedData));
+
+  alert(`✅ เพิ่ม ${drug.Name} (${dispenseData.quantity}) เข้าใบจ่ายยาเรียบร้อย`);
+};
 
   const headers = [
     "Name",
@@ -118,12 +108,11 @@ export default function PatientDispenseTable() {
   return (
     <div className="bg-gray-50 min-h-screen p-4 sm:p-6 lg:p-8">
       <div className="bg-white rounded-lg shadow-md p-6">
-        {/* Header Section */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
           <div className="flex items-center gap-4">
             <button
               onClick={() => window.history.back()}
-              className="text-gray-500 hover:text-gray-800"
+              className="text-gray-500 hover:text-gray-800 cursor-pointer"
             >
               <IoArrowBack size={24} />
             </button>
@@ -164,7 +153,13 @@ export default function PatientDispenseTable() {
               <tbody className="divide-y divide-gray-200">
                 {filteredDrugs.map((drug) => (
                   <tr key={drug.DrugID} className="hover:bg-gray-50">
-                    <td className="py-3 px-4 font-medium">{drug.Name}</td>
+                    <td className="py-3 px-4 font-medium">
+                    <Link
+                      href={`/test_drug/${drug.DrugID}`}
+                      className="text-blue-600 hover:text-blue-700 transform hover:scale-105"
+                    >{drug.Name}
+                    </Link>
+                    </td>
                     <td className="py-3 px-4 text-sm text-gray-600">{drug.Details}</td>
                     <td className="py-3 px-4">{drug.Price}</td>
                     <td className="py-3 px-4">{drug.Expiry_date}</td>
