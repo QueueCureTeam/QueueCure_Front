@@ -1,4 +1,5 @@
 import StatusBadge from "../../common/StatusBadge";
+import Link from "next/link";
 
 export default function QueueTableLink({ data, showButton = true }) {
   return (
@@ -38,11 +39,14 @@ export default function QueueTableLink({ data, showButton = true }) {
                 </td>
 
                 {showButton && (
-                    <td className="py-4 px-4 text-center">
-                    <button className="px-4 py-2 border-2 border-blue-400 text-blue-600 hover:bg-blue-50 font-medium rounded-lg shadow-sm transition-all duration-200">
+                  <td className="py-4 px-4 text-center">
+                    <Link
+                      href={`/test_queue_detail/${item.QueueID}`}
+                      className="px-4 py-2 border-2 border-blue-400 text-blue-600 hover:bg-blue-50 font-medium rounded-lg shadow-sm transition-all duration-200">
                         รายละเอียด
-                    </button>
-                    </td>
+                    </Link>
+                  </td>
+
                 )}
                 </tr>
             );

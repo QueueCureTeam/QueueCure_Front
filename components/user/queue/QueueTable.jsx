@@ -18,7 +18,7 @@ export default function QueueTable({ data, showButton = true }) {
               <div className="px-4 py-2 inline-block bg-gradient-to-br from-blue-500 to-blue-600 text-white font-bold rounded-lg shadow-sm tracking-wide">{item.id}</div>
             </td>
             <td className="py-4 px-4">
-              <StatusBadge status={item.type} />
+                  <StatusBadge status={item.type} />
             </td>
             <td className="py-4 px-4 text-gray-600">{item.time}</td>
             {showButton && (
