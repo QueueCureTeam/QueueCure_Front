@@ -13,6 +13,7 @@ export default function QueueDetailPage() {
   const [prescriptions, setPrescriptions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const token = localStorage.getItem("id_token");
 
   function formatQueueID(id) {
     return `A${id.toString().padStart(3, '0')}`;
@@ -25,7 +26,7 @@ export default function QueueDetailPage() {
         const res = await axios.get(`http://localhost:3000/api/queue/${id}`, {
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${localStorage.getItem("id_token")}`,
+                "Authorization": `Bearer ${token}`,
             },
         });    
         const queueData = res.data;
@@ -36,7 +37,7 @@ export default function QueueDetailPage() {
             `http://localhost:3000/api/prescription/${queueData.PrescriptionID}`,
             {
               headers: {
-                "Authorization": `Bearer ${localStorage.getItem("id_token")}`,
+                "Authorization": `Bearer ${token}`,
               },
             }
           );
@@ -56,6 +57,21 @@ export default function QueueDetailPage() {
     if (id) fetchQueueDetail();
   }, [id]);
 
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`http://localhost:3000/api/queue/${id}`, {
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        },
+      });
+      alert("คิวถูกลบเรียบร้อยแล้ว");
+      router.push("/test_dashboard");
+    } catch (err) {
+      alert("เกิดข้อผิดพลาดในการลบคิว");
+      console.error("Error deleting queue:", err);
+      setError(err.response?.data?.message || err.message);
+    }
+  };
 
   if (loading)
     return <div className="text-center text-gray-600 py-12">กำลังโหลดข้อมูล...</div>;
@@ -107,9 +123,15 @@ export default function QueueDetailPage() {
           <div className="pt-4">
             <button
               onClick={() => alert("ยังไม่เชื่อมต่อระบบชำระเงิน")}
-              className="w-full py-3 cursor-pointer bg-green-600 hover:bg-green-700 text-white font-bold text-lg rounded-xl shadow-md transition-colors"
+              className="w-full py-3 cursor-pointer bg-green-500 hover:bg-green-700 text-white font-bold text-lg rounded-xl shadow-md transition-colors"
             >
               ชำระเงิน
+            </button>
+            <button
+              onClick={() => handleDelete()}
+              className="w-full py-3 cursor-pointer bg-red-500 mt-4 hover:bg-red-600 text-white font-bold text-lg rounded-xl shadow-md transition-colors"
+            >
+              ยกเลิกคิว
             </button>
           </div>
         </div>
