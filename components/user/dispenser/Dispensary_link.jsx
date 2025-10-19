@@ -112,17 +112,20 @@ export default function Dispensary() {
         <h2 className="text-center text-3xl font-bold text-gray-800 mb-6">
           Patient Data
         </h2>
-        <div className="text-center text-gray-700 mb-8">
-          <p className="text-lg font-semibold mb-4">Patient ID : A00{patientData.PatientID}</p>
+        <div className=" text-gray-700 mb-8">
+          <p className="text-lg text-center font-semibold mb-4">Patient ID : A00{patientData.PatientID}</p>
           <div className="flex justify-center mb-4">
             <FaUserCircle size={80} className="text-gray-300" />
           </div>
-          <p className="text-xl">
-            ชื่อ  <span  className="mx-2 mr-4 "> {patientData.Name}</span>     
-            นามสกุล <span className="mx-2 mr-4 "> {patientData.Surname}</span>
-            เพศ <span  className="mx-2 mr-4 "> {patientData.Gender}</span>
-            อายุ <span  className="mx-2 mr-4 "> {patientData.Age}</span>
-          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4 text-lg border-t border-gray-200 pt-6">
+            <div><span className="font-semibold text-gray-500">ชื่อ:</span> {patientData.Name}</div>
+            <div><span className="font-semibold text-gray-500">นามสกุล:</span> {patientData.Surname}</div>
+            <div><span className="font-semibold text-gray-500">เพศ:</span> {patientData.Gender}</div>
+            <div><span className="font-semibold text-gray-500">อายุ:</span> {patientData.Age}</div>
+            <div className="md:col-span-2"><span className="font-semibold text-gray-500">เลขประจำตัวประชาชน:</span> {patientData.NationalID}</div>
+            <div className="md:col-span-2"><span className="font-semibold text-gray-500">เบอร์โทรติดต่อ:</span> {patientData.PhoneNumber}</div>
+            <div className="md:col-span-2"><span className="font-semibold text-gray-500">ที่อยู่:</span> {patientData.Address}</div>
+          </div>
         </div>
 
         <div className="border border-gray-300 rounded-lg p-4 sm:p-6">

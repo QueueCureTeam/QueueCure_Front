@@ -1,5 +1,4 @@
 "use client";
-import QueueStatus from "./QueueStatus_link";
 import QueueTable from "./QueueTable_link";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -41,6 +40,10 @@ export default function AllQueue_Link() {
         fetchQueueData();
     }, []);
 
+    const waitingCount = queueData.filter(q => q.Status === "waiting").length;
+    const preparingCount = queueData.filter(q => q.Status === "preparing").length;
+    const readyCount = queueData.filter(q => q.Status === "ready").length;
+
     return (
         <div className="w-full bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
             <div className="px-6 py-4 flex items-center justify-between text-white text-xl font-bold bg-gradient-to-r from-blue-600 to-blue-700">
@@ -53,7 +56,34 @@ export default function AllQueue_Link() {
                     <span className="text-sm">อัพเดทล่าสุด: {timeString} น.</span>
                 </div>
             </div>
-            <QueueStatus data={queueData} />
+            <div className="bg-gradient-to-b from-blue-50 to-white tracking-widest">
+            <div className="flex flex-col sm:flex-row justify-center gap-4 p-4 text-center">
+              {/* ✅ ถึงคิวแล้ว */}
+              <div className="flex-1 flex flex-col items-center px-3 py-6 border-2 border-green-300 rounded-2xl bg-green-50 space-y-1">
+                <span className="text-sm text-green-700">ถึงคิวแล้ว</span>
+                <span className="text-3xl font-bold text-green-800">
+                  {readyCount}
+                </span>
+              </div>
+
+              {/* ✅ กำลังจัดเตรียม */}
+              <div className="flex-1 flex flex-col items-center px-3 py-6 border-2 border-yellow-300 rounded-2xl bg-yellow-50 space-y-1">
+                <span className="text-sm text-yellow-700">กำลังจัดเตรียม</span>
+                <span className="text-3xl font-bold text-yellow-800">
+                  {preparingCount}
+                </span>
+              </div>
+
+              {/* ✅ อยู่ในคิว */}
+              <div className="flex-1 flex flex-col items-center px-3 py-6 border-2 border-red-300 rounded-2xl bg-red-50 space-y-1">
+                <span className="text-sm text-red-700">อยู่ในคิว</span>
+                <span className="text-3xl font-bold text-red-800">
+                  {waitingCount}
+                </span>
+              </div>
+            </div>
+          </div>
+
             <div className="overflow-x-auto">
                 {loading ? (
                 <div className="p-6 text-center text-gray-500">กำลังโหลดข้อมูล...</div>

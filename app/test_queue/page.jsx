@@ -1,7 +1,7 @@
 import Header from "../../components/common/Header";
-import CurrentQueue from "../../components/user/queue/CurrentQueue";
+import CurrentQueue from "../../components/user/queue/CurrentQueue_link";
 import AllQueue from "../../components/user/queue/AllQueue_Link";
-import PatientQueue from "../../components/user/queue/PatientQueue";
+import PatientQueue from "../../components/user/queue/PatientQueue_Link";
 
 export default function TestQueue() {
   return (

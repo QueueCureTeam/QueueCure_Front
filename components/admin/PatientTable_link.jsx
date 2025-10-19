@@ -21,7 +21,7 @@ export default function PatientTable() {
                     "Authorization": `Bearer ${localStorage.getItem("id_token")}`,
                 },
             });
-            setPatients([response.data]);
+            setPatients(response.data);
 
             setLastUpdated(new Date().toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' }));
         } catch (err) {
