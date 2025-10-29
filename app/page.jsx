@@ -3,7 +3,7 @@ import CurrentQueue from "../components/user/queue/CurrentQueue";
 import AllQueue from "../components/user/queue/AllQueue";
 import PatientQueue from "../components/user/queue/PatientQueue";
 
-export default function MainPage() {
+export default function TestQueue() {
   return (
     <>
       <Header />
