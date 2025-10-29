@@ -25,6 +25,9 @@ export default function Dashboard() {
   const [queueData, setQueueData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [searchFilter, setSearchFilter] = useState("");
+
   const currentTime = new Date();
   const timeString = formatTime(currentTime);
 
@@ -47,6 +50,20 @@ export default function Dashboard() {
     fetchQueueData();
   }, []);
 
+  const filteredData = queueData.filter(item => {
+
+    const statusMatch = statusFilter === "all" || item.Status === statusFilter; //
+
+    const searchTermLower = searchFilter.toLowerCase();
+    const queueIdFormatted = `A${item.QueueID.toString().padStart(3, '0')}`.toLowerCase();
+
+    const patientNameMatch = item.PatientName?.toLowerCase().includes(searchTermLower) || false;
+    const queueIdMatch = queueIdFormatted.includes(searchTermLower);
+    const searchMatch = searchFilter === "" || queueIdMatch || patientNameMatch; // ถ้าช่องค้นหาว่าง ก็ให้ผ่าน
+
+    return statusMatch && searchMatch;
+  });
+
   return (
     <RoleChecker
       onRoleDetected={(role) => {
@@ -60,7 +77,7 @@ export default function Dashboard() {
           {role === "doctor" || role === "pharmacist" ? (
             <>
               <Header />
-              <SearchBar />
+              <SearchBar showDropdown={true} onStatusChange={setStatusFilter} onSearchChange={setSearchFilter} />
               <div className="mx-8 bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
                 <div className="px-6 py-4 flex items-center justify-between text-white text-xl font-bold bg-gradient-to-r from-blue-600 to-blue-700">
                   <div className="flex items-center gap-4">
@@ -92,7 +109,7 @@ export default function Dashboard() {
                       ) : error ? (
                         <div className="p-6 text-center text-red-500">เกิดข้อผิดพลาด: {error}</div>
                       ) : (
-                        <QueueTable data={queueData} showButton={true} />
+                        <QueueTable data={filteredData} showButton={true} />
                       )}
                     </div>
                   </div>
