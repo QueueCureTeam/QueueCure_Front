@@ -9,7 +9,7 @@ export default function DispensaryPage() {
     <RoleChecker
       onRoleDetected={(role) => {
         if (role !== "doctor") {
-          router.push("/test_queue");
+          router.push("/");
         }
       }}
     >
