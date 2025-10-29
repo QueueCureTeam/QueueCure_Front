@@ -27,12 +27,11 @@ export default function Dashboard() {
   const [error, setError] = useState(null);
   const [statusFilter, setStatusFilter] = useState("all");
   const [searchFilter, setSearchFilter] = useState("");
-
-  const currentTime = new Date();
-  const timeString = formatTime(currentTime);
+  const [timeString, setTimeString] = useState(formatTime(new Date()));
 
   const fetchQueueData = async () => {
     try {
+      setTimeString(formatTime(new Date()));
       setLoading(true);
       const res = await axios.get("http://localhost:3000/api/queue");
       const list = res.data;
@@ -59,7 +58,7 @@ export default function Dashboard() {
 
     const patientNameMatch = item.PatientName?.toLowerCase().includes(searchTermLower) || false;
     const queueIdMatch = queueIdFormatted.includes(searchTermLower);
-    const searchMatch = searchFilter === "" || queueIdMatch || patientNameMatch; // ถ้าช่องค้นหาว่าง ก็ให้ผ่าน
+    const searchMatch = searchFilter === "" || queueIdMatch || patientNameMatch;
 
     return statusMatch && searchMatch;
   });
@@ -85,8 +84,10 @@ export default function Dashboard() {
                     <span className="tracking-wider">รายการคิวทั้งหมด</span>
                   </div>
                   <div className="flex gap-3 items-center">
-                    <LuRefreshCcw className="drop-shadow-xl drop-shadow-gray-700" />
-                    <span className="text-sm">อัพเดทล่าสุด: {timeString} น.</span>
+                    <button onClick={fetchQueueData} className="p-2 rounded-full hover:bg-blue-500/20 transition-colors" title="รีเฟรชข้อมูล">
+                      <LuRefreshCcw className="text-white" />
+                    </button>
+                    <span className="text-sm">อัปเดตล่าสุด: {timeString} น.</span>
                   </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-4">
