@@ -133,7 +133,7 @@ export default function PatientQueue() {
       <span className="text-sm text-gray-600 tracking-wide">สถานะ</span>
       <StatusBadge status={queueData.Status} />
       <Link
-        href={`/test_queue_detail/${queueData.QueueID}`}
+        href={`/queue_detail/${queueData.QueueID}`}
         className="text-sm text-white bg-gradient-to-r from-green-500 to-green-600 mt-2 px-6 py-2 rounded-xl shadow-md hover:bg-gradient-to-r hover:from-green-600 hover:to-green-800 transition duration-200"
       >
         ดูรายละเอียด

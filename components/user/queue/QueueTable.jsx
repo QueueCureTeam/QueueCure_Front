@@ -63,7 +63,7 @@ export default function QueueTableLink({ data, showButton = true }) {
                 {showButton && (
                   <td className="py-4 px-4 text-center">
                     <Link
-                      href={`/test_queue_detail/${item.QueueID}`}
+                      href={`/queue_detail/${item.QueueID}`}
                       className="px-4 py-2 border-2 border-blue-400 text-blue-600 hover:bg-blue-50 font-medium rounded-lg shadow-sm transition-all duration-200">
                         รายละเอียด
                     </Link>

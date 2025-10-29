@@ -89,7 +89,7 @@ export default function PatientTable() {
                                 <td className="py-4 px-4 text-gray-600 align-middle">{patient.Gender}</td>
                                 <td className="py-4 px-4 align-middle">
                                     <Link
-                                        href={`/test_dispensary/${patient.PatientID}`}
+                                        href={`/dispensary/${patient.PatientID}`}
                                         className="px-4 py-2 border-2 border-blue-400 text-blue-600 hover:bg-blue-400 hover:text-white rounded-lg transition-all"
                                         >
                                         จ่ายยา

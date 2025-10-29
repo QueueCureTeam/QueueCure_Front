@@ -347,7 +347,7 @@ export default function QueueDetailPage() {
                     {prescriptions.map((drug, i) => (
                       <li key={i}>
                         <Link 
-                          href={`/test_drug/${drug.DrugID}`}
+                          href={`/drug/${drug.DrugID}`}
                           className="text-blue-500 hover:text-blue-600 transition duration-200"
                         >
                           {drug.DrugName}
