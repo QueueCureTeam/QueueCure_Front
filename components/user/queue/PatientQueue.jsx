@@ -146,12 +146,20 @@ export default function PatientQueue() {
         <span className="text-gray-600 tracking-wide">เวลาที่คาดการณ์</span>
       </div>
       <div className="text-2xl font-bold text-blue-800">
-        {queueData.Status === "delivery" ? "2 วัน" : calculatedTime.estimatedTime}
+        {queueData.Status === "done"
+          ? "เสร็จสิ้น"
+          : queueData.Status === "delivery"
+          ? "2 วัน"
+          : `${calculatedTime.estimatedTime}`}
       </div>
       <div className="mt-1 text-orange-500 text-xs bg-orange-50 px-2 py-1 rounded-full">
-        {calculatedTime.remainingMinutes > 0
-          ? `${calculatedTime.remainingMinutes} นาที`
-          : "พร้อม"}
+        {queueData.Status === "done"
+          ? "-"
+          : queueData.Status === "ready" 
+          ? "พร้อม"
+          : queueData.Status === "delivery" 
+          ? "อยู่ระหว่างการจัดส่ง"
+          : `${calculatedTime.remainingMinutes} นาที`}
       </div>
       </div>
     </div>

@@ -78,7 +78,7 @@ export default function Dashboard() {
             <>
               <Header />
               <SearchBar showDropdown={true} onStatusChange={setStatusFilter} onSearchChange={setSearchFilter} />
-              <div className="mx-8 bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
+              <div className="mx-8 bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden mb-8">
                 <div className="px-6 py-4 flex items-center justify-between text-white text-xl font-bold bg-gradient-to-r from-blue-600 to-blue-700">
                   <div className="flex items-center gap-4">
                     <FaAngleDoubleRight size={24} className="drop-shadow-lg" />

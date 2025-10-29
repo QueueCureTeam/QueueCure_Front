@@ -34,6 +34,10 @@ export default function Navbar() {
                 <FaUserPlus />
                 <span>สมัครสมาชิก</span>
               </a>
+              <a href="http://localhost:3000/auth/logout" className="flex items-center gap-2 rounded-xl px-3 py-2 bg-white/20 text-gray-100 shadow-lg hover:bg-white hover:text-blue-600 transition-all duration-200">
+                <FaUserPlus />
+                <span>ออกจากระบบ</span>
+              </a>
             </>
           ) : (
             <div className="flex items-center border-l border-white/40 pl-4 drop-shadow-xl">
