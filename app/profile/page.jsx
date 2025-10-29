@@ -3,6 +3,7 @@
 import { FaUserCircle, FaEdit, FaRegEdit  } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Image from 'next/image';
 import { useRouter } from "next/navigation";
 import RoleChecker from "../../components/common/RoleChecker";
 
@@ -22,6 +23,7 @@ export default function ProfilePage() {
   const [error, setError] = useState("");
   const [role, setRole] = useState(null);
 
+  const defaultS3ImageUrl = "https://queuequres3.s3.us-east-1.amazonaws.com/public/default-avatar.png";
   const idToken = typeof window !== "undefined" ? localStorage.getItem("id_token") : null;
 
   useEffect(() => {
@@ -49,7 +51,7 @@ export default function ProfilePage() {
         });
         setLoading(false);
       });
-  }, [idToken]);
+  }, [idToken, role]);
 
   if (loading) return <div>Loading...</div>;
 
@@ -99,11 +101,22 @@ export default function ProfilePage() {
           ) : (
             <div className="flex justify-center items-center min-h-screen bg-gray-100">
               <div className="bg-white shadow-md rounded-lg p-8 w-100">
-                <div className="flex flex-col items-center">
+                {/* <div className="flex flex-col items-center">
                   <FaUserCircle size={80} className="text-gray-400" />
                   <button className="cursor-pointer mt-4 text-sm bg-gray-200 pl-3 pr-2 py-1 rounded-md flex items-center gap-2">
                     Edit <FaEdit size={12} />
                   </button>
+                </div> */}
+                <div className="flex flex-col items-center">
+                  <div className="relative size-24 rounded-full shadow-md"> {/* ⬅️ กรอบรูป */}
+                    <Image
+                      src={defaultS3ImageUrl}
+                      alt="Profile"
+                      layout="fill"
+                      className="rounded-full object-cover"
+                      priority
+                    />
+                  </div>
                 </div>
 
                 <div className="space-y-3 mt-6">
