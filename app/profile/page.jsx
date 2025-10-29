@@ -3,8 +3,11 @@
 import { FaUserCircle, FaEdit, FaRegEdit  } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+import RoleChecker from "../../components/common/RoleChecker";
 
 export default function ProfilePage() {
+  const router = useRouter();
   const [profile, setProfile] = useState({
     Name: "",
     Surname: "",
@@ -17,13 +20,14 @@ export default function ProfilePage() {
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [role, setRole] = useState(null);
 
   const idToken = typeof window !== "undefined" ? localStorage.getItem("id_token") : null;
 
   useEffect(() => {
-  if (!idToken) return;
+   if (!idToken || role === "doctor" || role === "pharmacist") return;
 
-    axios
+    axios 
       .get("http://localhost:3000/api/patient/getProfile", {
         headers: { Authorization: `Bearer ${idToken}` },
       })
@@ -76,67 +80,86 @@ export default function ProfilePage() {
   };
 
   return (
-    <>
-      <div className="flex justify-center items-center min-h-screen bg-gray-100">
-        <div className="bg-white shadow-md rounded-lg p-8 w-100">
-          {/* avatar */}
-          <div className="flex flex-col items-center">
-            <FaUserCircle size={80} className="text-gray-400" />
-            <button className="cursor-pointer mt-4 text-sm bg-gray-200 pl-3 pr-2 py-1 rounded-md flex items-center gap-2">
-              Edit <FaEdit size={12} />
-            </button>
-          </div>
-
-          {/* profile info */}
-          <div className="space-y-3 mt-6">
-            {[
-              { label: "ชื่อ", key: "Name" },
-              { label: "นามสกุล", key: "Surname" },
-              { label: "เลขบัตรประชาชน", key: "NationalID" },
-              { label: "เบอร์โทรศัพท์", key: "PhoneNumber" },
-              { label: "ที่อยู่", key: "Address" },
-              { label: "อายุ", key: "Age", type: "number"},
-            ].map((field) => (
-              <div key={field.key} className="flex justify-between items-center">
-                <span className="font-medium">{field.label}</span>
-                <div className="relative w-56">
-                  <input
-                    type={field.type || "text"}                    
-                    name={field.key}
-                    value={profile[field.key] || ""}
-                    className="w-56 px-3 ml-2 py-1 pr-8 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-                    onChange={handleChange}
-                  />
-                  <FaRegEdit className="absolute right-1 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer" />
+    <RoleChecker
+      onRoleDetected={(detectedRole) => {
+        setRole(detectedRole);
+        if (detectedRole === "doctor" || detectedRole === "pharmacist") {
+          router.push("/");
+        }
+      }}
+    >
+      {(role) => (
+        <>
+          {role === "doctor" || role === "pharmacist" ? (
+            <div className="text-center py-20 text-gray-600">
+              กำลังนำคุณกลับหน้าแรก...
+            </div>
+          ) : loading ? (
+            <div>Loading...</div>
+          ) : (
+            <div className="flex justify-center items-center min-h-screen bg-gray-100">
+              <div className="bg-white shadow-md rounded-lg p-8 w-100">
+                <div className="flex flex-col items-center">
+                  <FaUserCircle size={80} className="text-gray-400" />
+                  <button className="cursor-pointer mt-4 text-sm bg-gray-200 pl-3 pr-2 py-1 rounded-md flex items-center gap-2">
+                    Edit <FaEdit size={12} />
+                  </button>
                 </div>
-              </div>
-            ))}
-            <div className="flex justify-between items-center">
-              <span className="font-medium">เพศ</span>
-              <div className="relative w-56">
-                <select
-                  name="Gender"
-                  value={profile.Gender || ""}
-                  onChange={handleChange}
-                  className="w-56 px-3 ml-2 py-1 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+
+                <div className="space-y-3 mt-6">
+                  {[
+                    { label: "ชื่อ", key: "Name" },
+                    { label: "นามสกุล", key: "Surname" },
+                    { label: "เลขบัตรประชาชน", key: "NationalID" },
+                    { label: "เบอร์โทรศัพท์", key: "PhoneNumber" },
+                    { label: "ที่อยู่", key: "Address" },
+                    { label: "อายุ", key: "Age", type: "number" },
+                  ].map((field) => (
+                    <div
+                      key={field.key}
+                      className="flex justify-between items-center"
+                    >
+                      <span className="font-medium">{field.label}</span>
+                      <div className="relative w-56">
+                        <input
+                          type={field.type || "text"}
+                          name={field.key}
+                          value={profile[field.key] || ""}
+                          className="w-56 px-3 ml-2 py-1 pr-8 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                          onChange={handleChange}
+                        />
+                        <FaRegEdit className="absolute right-1 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer" />
+                      </div>
+                    </div>
+                  ))}
+                  <div className="flex justify-between items-center">
+                    <span className="font-medium">เพศ</span>
+                    <div className="relative w-56">
+                      <select
+                        name="Gender"
+                        value={profile.Gender || ""}
+                        onChange={handleChange}
+                        className="w-56 px-3 ml-2 py-1 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      >
+                        <option value="">เลือกเพศ</option>
+                        <option value="ชาย">ชาย</option>
+                        <option value="หญิง">หญิง</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <button
+                  onClick={handleSubmit}
+                  className="cursor-pointer mt-6 w-full bg-green-500 text-white py-2 rounded-md hover:bg-green-600 transition"
                 >
-                  <option value="">เลือกเพศ</option>
-                  <option value="ชาย">ชาย</option>
-                  <option value="หญิง">หญิง</option>
-                </select>
+                  Submit
+                </button>
               </div>
             </div>
-          </div>
-
-          {/* submit button */}
-          <button
-            onClick={handleSubmit}
-            className="cursor-pointer mt-6 w-full bg-green-500 text-white py-2 rounded-md hover:bg-green-600 transition"
-          >
-            Submit
-          </button>
-        </div>
-      </div>
-    </>
+          )}
+        </>
+      )}
+    </RoleChecker>
   );
 }
