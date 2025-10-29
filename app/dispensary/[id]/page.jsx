@@ -1,3 +1,4 @@
+"use client"
 import Dispensary from '../../../components/user/dispenser/Dispensary';
 import { useRouter } from "next/navigation";
 import RoleChecker from "../../../components/common/RoleChecker";
