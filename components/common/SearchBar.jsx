@@ -6,7 +6,8 @@ const statusOptions = [
   { value: 'all', label: 'ทั้งหมด' },
   { value: 'ready', label: 'ถึงคิวแล้ว' },
   { value: 'preparing', label: 'กำลังจัดเตรียม' },
-  { value: 'waiting', label: 'อยู่ในคิว' }
+  { value: 'waiting', label: 'อยู่ในคิว' },
+  { value: 'delivery', label: 'กําลังจัดส่ง' }
 ];
 
 export default function SearchBar() {

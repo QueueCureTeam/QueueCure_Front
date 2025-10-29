@@ -26,8 +26,10 @@ export default function CurrentQueue() {
         const readyQueues = calculated.filter(q => q.Status === "ready");
         const preparingQueues = calculated.filter(q => q.Status === "preparing");
         const waitingQueues = calculated.filter(q => q.Status === "waiting");
+        const deliveryQueues = calculated.filter(q => q.Status === "delivery");
 
-        const current = readyQueues[0] || preparingQueues[0] || null;
+
+        const current = readyQueues[0] || preparingQueues[0] || waitingQueues[0] || null;
         const next = waitingQueues[0] || null;
         
         setQueues(calculated);

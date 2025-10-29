@@ -3,7 +3,7 @@ import { FaClock, FaRegUserCircle } from "react-icons/fa";
 
 export default function PatientQueue() {
   return (
-    <div className="sticky bottom-0 left-0 right-0 mx-auto max-w-4xl px-6 py-3 bg-white border-t-2 border-blue-400 shadow-xl rounded-t-3xl">
+    <div className="fixed bottom-0 left-0 right-0 z-50 mx-auto max-w-4xl px-6 py-3 bg-white border-t-2 border-blue-400 shadow-xl rounded-t-3xl">
       <div className="flex flex-wrap justify-between items-center gap-6">
         <div className="flex flex-col items-center text-center space-y-2">
           <div className="flex items-center gap-2">

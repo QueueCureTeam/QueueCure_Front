@@ -15,11 +15,15 @@ export default function QueueDetailPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [status, setStatus] = useState("");
+  const [queueOption, setQueueOption] = useState("self_pickup");
   const [pharmCounter, setPharmCounter] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [userRole, setUserRole] = useState(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-
+  const [calculatedTime, setCalculatedTime] = useState({
+    estimatedTime: "-",
+    remainingMinutes: 0,
+  });
 
   const token = typeof window !== "undefined" ? localStorage.getItem("id_token") : null;
 
@@ -39,6 +43,10 @@ export default function QueueDetailPage() {
         });
         const queueData = res.data;
         setQueue(queueData);
+        if (queueData && queueData.QueueID) {
+          calculatePatientTime(queueData);
+        }
+        setQueueOption(res.data.DeliveryOption || "");
         setStatus(res.data.Status || "");
         setPharmCounter(res.data.PharmCounter || "");
 
@@ -87,6 +95,31 @@ export default function QueueDetailPage() {
   const closeDeleteConfirm = () => {
     setShowDeleteConfirm(false);
   };
+  const handleSelfEdit = async () => {
+    try {
+      const newStatus = queueOption === "delivery" ? "delivery" : "waiting";
+
+      await axios.put(`http://localhost:3000/api/queue/self/${id}`, 
+        {
+          DeliveryOption: queueOption,
+          Status: newStatus
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+          },
+        }
+      );
+      alert("เลือกบริการจัดส่งเรียบร้อย!");
+      setIsEditing(false);
+      setQueue((prev) => ({ ...prev, DeliveryOption: queueOption, Status: newStatus }));
+    } catch (err) {
+      alert("เกิดข้อผิดพลาดในการแก้ไขคิว");
+      console.error("Error deleting queue:", err);
+      setError(err.response?.data?.message || err.message);
+    }
+  };
 
   const handleEdit = async () => {
     try {
@@ -112,9 +145,54 @@ export default function QueueDetailPage() {
     }
   };
 
+  const calculatePatientTime = async (patientQueue) => {
+  try {
+    const res = await fetch("http://localhost:3000/api/queue", {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    });
+    const allQueues = await res.json();
+    if (Array.isArray(allQueues)) {
+      const patientIndex = allQueues.findIndex(q => q.QueueID === patientQueue.QueueID);
+      if (patientIndex !== -1) {
+        const readyBefore = allQueues.slice(0, patientIndex).filter(q => q.Status === "ready").length;
+        const waitMinutes = (patientIndex - readyBefore + 1) * 5;
+
+        const now = new Date();
+        const estimatedTime = new Date(now.getTime() + (waitMinutes + 5) * 60000);
+        const remainingMinutes = Math.max(0, Math.ceil((estimatedTime - now) / 60000));
+
+        setCalculatedTime({
+          estimatedTime: estimatedTime.toLocaleTimeString("th-TH", {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false,
+          }),
+          remainingMinutes,
+        });
+      }
+    }
+    } catch (error) {
+      console.error("Error calculating time:", error);
+    }
+  };
+
+
   const handlePayment = () => {
     alert("ยังไม่เชื่อมต่อระบบชำระเงิน");
   };
+
+  useEffect(() => {
+    if (queue?.DeliveryOption) {
+      setQueueOption(queue.DeliveryOption);
+    } else if (queue?.Status === "delivery") {
+      setQueueOption("delivery");
+    } else {
+      setQueueOption("self_pickup");
+    }
+  }, [queue]);
 
   if (loading) return <div className="text-center text-gray-600 py-12">กำลังโหลดข้อมูล...</div>;
   if (error) return <div className="text-center text-red-600 py-12">เกิดข้อผิดพลาด: {error}</div>;
@@ -124,7 +202,11 @@ export default function QueueDetailPage() {
     { value: "waiting", label: "อยู่ในคิว" },
     { value: "preparing", label: "กำลังจัดเตรียม" },
     { value: "ready", label: "ถึงคิวแล้ว" },
+    { value: "delivery", label: "บริการจัดส่ง" }
   ];
+
+  const patientCanChangeOption = queue.Status === "waiting" || !queue.Status;
+
 
   return (
     <RoleChecker onRoleDetected={setUserRole}>
@@ -145,7 +227,12 @@ export default function QueueDetailPage() {
               </h2>
 
               <div key={queue.QueueID} className="bg-gray-50 rounded-xl p-4 border border-gray-200 space-y-2">
-                <p><span className="font-semibold">เวลารับยาโดยประมาณ :</span> ทำไงวะ</p>
+                <p>
+                  <span className="font-semibold">เวลารับยาโดยประมาณ :</span>{" "}
+                  {queue.Status === "delivery"
+                    ? "ประมาณ 2 วัน"
+                    : `${calculatedTime.estimatedTime} (${calculatedTime.remainingMinutes} นาที)`}
+                </p>
                 <p><span className="font-semibold">หมายเลขคิว :</span> {formatQueueID(queue.QueueID)} </p>
                 
                 <p>
@@ -272,6 +359,50 @@ export default function QueueDetailPage() {
               </div>
 
               <div className="pt-4 space-y-4">
+                 {(role !== 'pharmacist' && role !== 'doctor') && (
+                  <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
+                    <p className="font-semibold mb-2 text-center text-gray-700">เลือกรูปแบบการรับยา</p>
+                    <div className="flex flex-col md:flex-row items-center justify-center gap-3">
+                      <select
+                        value={queueOption}
+                        onChange={(e) => setQueueOption(e.target.value)}
+                        className="border border-gray-300 rounded-lg px-3 py-2 text-gray-700 focus:ring-2 focus:ring-blue-500 w-full md:w-64"
+                        disabled={!patientCanChangeOption}
+                      >
+                        <option value="self_pickup">รับยาที่โรงพยาบาล</option>
+                        <option value="delivery">จัดส่งยาถึงบ้าน</option>
+                      </select>
+
+                      <button
+                        onClick={handleSelfEdit}
+                        disabled={!patientCanChangeOption || !queueOption}
+                        className={`px-4 py-2 rounded-lg font-bold shadow-md transition-colors duration-200 w-full md:w-auto ${
+                          patientCanChangeOption && queueOption
+                            ? "bg-blue-600 hover:bg-blue-700 text-white cursor-pointer"
+                            : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                        }`}
+                      >
+                        ยืนยันการเลือกบริการ
+                      </button>
+                    </div>
+
+                    {!patientCanChangeOption && (
+                      <p className="text-sm text-gray-500 mt-2 text-center">
+                        ไม่สามารถเปลี่ยนรูปแบบการรับยาได้เนื่องจากคิวถูกดำเนินการแล้ว (สถานะ: {queue.Status})
+                      </p>
+                    )}
+
+                    {/* แสดงค่า DeliveryOption ปัจจุบัน */}
+                    <p className="text-sm text-gray-600 mt-3 text-center">
+                      รูปแบบการรับยาปัจจุบัน:{" "}
+                      <span className="font-medium">
+                        {queue.DeliveryOption === "delivery" ? "รับยาที่โรงพยาบาล" : "จัดส่งถึงบ้าน"}
+                      </span>
+                    </p>
+                  </div>
+                )}
+
+
                 {(role !== 'pharmacist' && role !== 'doctor') && (
                   <button 
                     onClick={handlePayment}

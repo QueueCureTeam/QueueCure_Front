@@ -18,6 +18,11 @@ export default function StatusBadge({status}) {
             dotColor = "bg-red-500"
             text = "อยู่ในคิว";
             break;
+        case "delivery":
+            bgColor = "bg-blue-50 border-blue-200 text-blue-700"
+            dotColor = "bg-blue-500"
+            text = "กำลังจัดส่ง";
+            break;
         default: 
             bgColor = "bg-gray-50 border-gray-200 text-gray-700";
             dotColor = "bg-gray-400";

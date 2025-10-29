@@ -10,6 +10,9 @@ export default function StatusBadge({status}) {
         case "waiting":
             text = "อยู่ในคิว";
             break;
+        case "delivery":
+            text = "กำลังจัดส่ง";
+            break;
         default: 
             text = "ไม่ทราบสถานะ";
             break;

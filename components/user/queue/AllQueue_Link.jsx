@@ -43,6 +43,7 @@ export default function AllQueue_Link() {
     const waitingCount = queueData.filter(q => q.Status === "waiting").length;
     const preparingCount = queueData.filter(q => q.Status === "preparing").length;
     const readyCount = queueData.filter(q => q.Status === "ready").length;
+    const deliveryCount = queueData.filter(q => q.Status === "delivery").length;
 
     return (
         <div className="w-full bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
@@ -58,7 +59,6 @@ export default function AllQueue_Link() {
             </div>
             <div className="bg-gradient-to-b from-blue-50 to-white tracking-widest">
             <div className="flex flex-col sm:flex-row justify-center gap-4 p-4 text-center">
-              {/* ✅ ถึงคิวแล้ว */}
               <div className="flex-1 flex flex-col items-center px-3 py-6 border-2 border-green-300 rounded-2xl bg-green-50 space-y-1">
                 <span className="text-sm text-green-700">ถึงคิวแล้ว</span>
                 <span className="text-3xl font-bold text-green-800">
@@ -66,7 +66,6 @@ export default function AllQueue_Link() {
                 </span>
               </div>
 
-              {/* ✅ กำลังจัดเตรียม */}
               <div className="flex-1 flex flex-col items-center px-3 py-6 border-2 border-yellow-300 rounded-2xl bg-yellow-50 space-y-1">
                 <span className="text-sm text-yellow-700">กำลังจัดเตรียม</span>
                 <span className="text-3xl font-bold text-yellow-800">
@@ -74,11 +73,17 @@ export default function AllQueue_Link() {
                 </span>
               </div>
 
-              {/* ✅ อยู่ในคิว */}
               <div className="flex-1 flex flex-col items-center px-3 py-6 border-2 border-red-300 rounded-2xl bg-red-50 space-y-1">
                 <span className="text-sm text-red-700">อยู่ในคิว</span>
                 <span className="text-3xl font-bold text-red-800">
                   {waitingCount}
+                </span>
+              </div>
+
+              <div className="flex-1 flex flex-col items-center px-3 py-6 border-2 border-blue-300 rounded-2xl bg-blue-50 space-y-1">
+                <span className="text-sm text-blue-500">จัดส่ง</span>
+                <span className="text-3xl font-bold text-blue-600">
+                  {deliveryCount}
                 </span>
               </div>
             </div>

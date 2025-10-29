@@ -50,14 +50,14 @@ export default function QueueTableLink({ data, showButton = true }) {
                     <StatusBadge status={item.Status} />
                 </td>
 
-                {formattedTime2 !== "" ? (
+                {item.Status === "delivery" ? (
+                  <td className="py-4 px-4 text-gray-600">2 วัน</td>
+                ) : formattedTime2 !== "" ? (
                   <td className="py-4 px-4 text-gray-600">
                     {formattedTime} - {formattedTime2} น.
                   </td>
                 ) : (
-                  <td className="py-4 px-4 text-gray-600">
-                    {formattedTime}
-                  </td>
+                  <td className="py-4 px-4 text-gray-600">{formattedTime}</td>
                 )}
                 
                 {showButton && (

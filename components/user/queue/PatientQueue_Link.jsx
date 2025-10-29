@@ -23,8 +23,18 @@ export default function PatientQueue() {
           "Content-Type": "application/json",
         },
       });
+       if (res.status === 404) {
+        setQueueData(null);
+        setCalculatedTime({ estimatedTime: "-", remainingMinutes: 0 });
+        setLoading(false);
+        return; 
+      }
+
       if (!res.ok) {
-        throw new Error("Failed to fetch queue data");
+        setQueueData(null);
+        setCalculatedTime({ estimatedTime: "-", remainingMinutes: 0 });
+        setLoading(false);
+        return;
       }
       const data = await res.json();
       setQueueData(data);
@@ -107,41 +117,45 @@ export default function PatientQueue() {
   }
 
   return (
-    <div className="sticky bottom-0 left-0 right-0 mx-auto max-w-4xl px-6 py-3 bg-white border-t-2 border-blue-400 shadow-xl rounded-t-3xl">
-      <div className="flex flex-wrap justify-between items-center gap-6">
-        <div className="flex flex-col items-center text-center space-y-2">
-          <div className="flex items-center gap-2">
-            <FaRegUserCircle className="text-gray-700"/>
-            <span className="text-gray-600 tracking-wide">คิวของคุณ</span>
-          </div>
-          <div className="text-2xl font-bold text-white bg-gradient-to-r from-blue-500 to-blue-600 px-6 py-2 rounded-xl shadow-md">
-            {formatQueueID(queueData.QueueID)}
-          </div>
-        </div>
-
-        <div className="hidden sm:flex flex-col text-center space-y-2">
-          <span className="text-sm text-gray-600 tracking-wide">สถานะ</span>
-          <StatusBadge status={queueData.Status} />
-          <Link
-            href={`/test_queue_detail/${queueData.QueueID}`}
-            className="text-sm text-white bg-gradient-to-r from-green-500 to-green-600 mt-2 px-6 py-2 rounded-xl shadow-md hover:bg-gradient-to-r hover:from-green-600 hover:to-green-800 transition duration-200">
-                ดูรายละเอียด
-          </Link>
-        </div>
-
-        <div className="flex flex-col items-end text-end space-y-1">
-          <div className="flex items-center gap-2">
-            <FaClock className="text-gray-700" />
-            <span className="text-gray-600 tracking-wide">เวลาที่คาดการณ์</span>
-          </div>
-          <div className="text-2xl font-bold text-blue-800">
-            {calculatedTime.estimatedTime}
-          </div>
-          <div className="mt-1 text-orange-500 text-xs bg-orange-50 px-2 py-1 rounded-full">
-            {calculatedTime.remainingMinutes > 0 ? `${calculatedTime.remainingMinutes} นาที` : "พร้อม"}
-          </div>
-        </div>
+   <div className="fixed bottom-0 left-0 right-0 z-50 mx-auto max-w-4xl px-6 py-3 bg-white border-t-2 border-blue-400 shadow-xl rounded-t-3xl">
+  <div className="flex flex-wrap justify-between items-center gap-6">
+    <div className="flex flex-col items-center text-center space-y-2">
+      <div className="flex items-center gap-2">
+        <FaRegUserCircle className="text-gray-700" />
+        <span className="text-gray-600 tracking-wide">คิวของคุณ</span>
+      </div>
+      <div className="text-2xl font-bold text-white bg-gradient-to-r from-blue-500 to-blue-600 px-6 py-2 rounded-xl shadow-md">
+        {formatQueueID(queueData.QueueID)}
       </div>
     </div>
+
+    <div className="hidden sm:flex flex-col text-center space-y-2">
+      <span className="text-sm text-gray-600 tracking-wide">สถานะ</span>
+      <StatusBadge status={queueData.Status} />
+      <Link
+        href={`/test_queue_detail/${queueData.QueueID}`}
+        className="text-sm text-white bg-gradient-to-r from-green-500 to-green-600 mt-2 px-6 py-2 rounded-xl shadow-md hover:bg-gradient-to-r hover:from-green-600 hover:to-green-800 transition duration-200"
+      >
+        ดูรายละเอียด
+      </Link>
+    </div>
+
+    <div className="flex flex-col items-end text-end space-y-1">
+      <div className="flex items-center gap-2">
+        <FaClock className="text-gray-700" />
+        <span className="text-gray-600 tracking-wide">เวลาที่คาดการณ์</span>
+      </div>
+      <div className="text-2xl font-bold text-blue-800">
+        {queueData.Status === "delivery" ? "2 วัน" : calculatedTime.estimatedTime}
+      </div>
+      <div className="mt-1 text-orange-500 text-xs bg-orange-50 px-2 py-1 rounded-full">
+        {calculatedTime.remainingMinutes > 0
+          ? `${calculatedTime.remainingMinutes} นาที`
+          : "พร้อม"}
+      </div>
+      </div>
+    </div>
+  </div>
+
   );
 }
