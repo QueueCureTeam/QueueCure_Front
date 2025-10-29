@@ -155,7 +155,7 @@ export default function PatientDispenseTable() {
                   <tr key={drug.DrugID} className="hover:bg-gray-50">
                     <td className="py-3 px-4 font-medium">
                     <Link
-                      href={`/test_drug/${drug.DrugID}`}
+                      href={`/drug/${drug.DrugID}`}
                       className="text-blue-600 hover:text-blue-700 transform hover:scale-105"
                     >{drug.Name}
                     </Link>

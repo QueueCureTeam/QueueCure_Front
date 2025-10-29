@@ -5,12 +5,24 @@ import { useEffect, useState } from "react";
 import RoleChecker from "../../components/common/RoleChecker";
 import SearchBar from "../../components/common/SearchBar";
 import PatientTable from "../../components/admin/PatientTable";
+import { FaAngleDoubleRight } from "react-icons/fa";
+import { LuRefreshCcw } from "react-icons/lu";
+
+function formatTime(date) {
+  const options = {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false
+  };
+  return date.toLocaleTimeString('th-TH', options);
+}
 
 export default function Patient() {
   const router = useRouter();
   const [patients, setPatients] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [timeString, setTimeString] = useState(formatTime(new Date()));
 
   const [statusFilter, setStatusFilter] = useState("all");
   const [searchFilter, setSearchFilter] = useState("");
@@ -18,6 +30,7 @@ export default function Patient() {
   const fetchPatients = async () => {
     setLoading(true);
     setError(null);
+    setTimeString(formatTime(new Date()));
     try {
       const response = await axios.get("http://localhost:3000/api/queue/patients", {
         headers: {
@@ -70,11 +83,26 @@ export default function Patient() {
                   <span>•</span>
                   <span>12:00 น.</span>
                 </div>
+                <SearchBar showDropdown={false} onStatusChange={setStatusFilter} onSearchChange={setSearchFilter} />
+
               </div>
+              <div className="mx-8 bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
+                <div className="px-6 py-4 flex items-center justify-between text-white text-xl font-bold bg-gradient-to-r from-blue-600 to-blue-700">
+                  <div className="flex items-center gap-4">
+                    <FaAngleDoubleRight size={24} className="drop-shadow-lg" />
+                    <span className="tracking-wider">รายชื่อคนไข้ทั้งหมด</span>
+                  </div>
+                  <div className="flex gap-3 items-center">
+                    <button onClick={fetchPatients} className="p-2 rounded-full hover:bg-blue-500/20 transition-colors" title="รีเฟรชข้อมูล">
+                      <LuRefreshCcw className="text-white" />
+                    </button>
+                    <span className="text-sm">อัปเดตล่าสุด: {timeString} น.</span>
+                  </div>
+                </div>
 
-              <SearchBar showDropdown={false} onStatusChange={setStatusFilter} onSearchChange={setSearchFilter}/>
 
-              <PatientTable data={filteredPatients} loading={loading} error={error}/>
+                <PatientTable data={filteredPatients} loading={loading} error={error} />
+              </div>
             </>
           ) : (
             <div className="text-center py-20 text-gray-600">

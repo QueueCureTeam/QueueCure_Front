@@ -1,22 +1,8 @@
 "use client";
-import { FaAngleDoubleRight } from "react-icons/fa";
-import { LuRefreshCcw } from "react-icons/lu";
 import Link from "next/link";
 
 export default function PatientTable({ data, loading, error }) {
   return (
-    <div className="mx-8 bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
-      <div className="px-6 py-4 flex items-center justify-between text-white text-xl font-bold bg-gradient-to-r from-blue-600 to-blue-700">
-        <div className="flex items-center gap-4">
-          <FaAngleDoubleRight size={24} className="drop-shadow-lg" />
-          <span className="tracking-wider">รายชื่อคนไข้ทั้งหมด</span>
-        </div>
-        <div className="flex gap-3 items-center">
-          <LuRefreshCcw className="drop-shadow-xl drop-shadow-gray-700" />
-          <span className="text-sm">อัพเดทล่าสุด: 12:00 น.</span>
-        </div>
-      </div>
-
       <table className="w-full text-center text-gray-700 border-l border-gray-200">
         <thead className="bg-blue-100 text-blue-900 font-bold tracking-wider">
           <tr>
@@ -32,7 +18,6 @@ export default function PatientTable({ data, loading, error }) {
             <tr>
               <td colSpan="5" className="py-8 text-gray-500 text-center">
                 <div className="flex justify-center items-center gap-2">
-                  <LuRefreshCcw className="animate-spin text-2xl" />
                   <span>กำลังโหลดข้อมูล...</span>
                 </div>
               </td>
@@ -86,6 +71,5 @@ export default function PatientTable({ data, loading, error }) {
           )}
         </tbody>
       </table>
-    </div>
   );
 }
