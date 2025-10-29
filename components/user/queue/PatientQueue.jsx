@@ -12,6 +12,7 @@ function formatQueueID(id) {
 export default function PatientQueue() {
   const [queueData, setQueueData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [prevStatus, setPrevStatus] = useState(null);
   const [calculatedTime, setCalculatedTime] = useState({ estimatedTime: "-", remainingMinutes: 0 });
 
   const fetchPatientQueue = async (cognitoSub) => {
@@ -27,7 +28,7 @@ export default function PatientQueue() {
         setQueueData(null);
         setCalculatedTime({ estimatedTime: "-", remainingMinutes: 0 });
         setLoading(false);
-        return; 
+        return;
       }
 
       if (!res.ok) {
@@ -94,13 +95,46 @@ export default function PatientQueue() {
   };
 
   useEffect(() => {
+    if (typeof window !== "undefined" && Notification.permission === "default") {
+      Notification.requestPermission();
+    }
+
     const cognitoSub = getCognitoSubFromToken();
     if (cognitoSub) {
       fetchPatientQueue(cognitoSub);
     } else {
       setLoading(false);
     }
+
+    fetchPatientQueue(cognitoSub);
+
+    const interval = setInterval(() => {
+      fetchPatientQueue(cognitoSub);
+    }, 60000);
+    return () => clearInterval(interval);
   }, []);
+
+   useEffect(() => {
+    if (!queueData) return;
+
+    if (queueData.Status === "ready" && prevStatus !== "ready") {
+      if (Notification.permission === "granted") {
+        new Notification("คิวของคุณพร้อมแล้ว!", {
+          body: `คิว ${formatQueueID(queueData.QueueID)} พร้อมเข้ารับบริการแล้ว`,
+        });
+      } else if (Notification.permission !== "denied") {
+        Notification.requestPermission().then((permission) => {
+          if (permission === "granted") {
+            new Notification("คิวของคุณพร้อมแล้ว!", {
+              body: `คิว ${formatQueueID(queueData.QueueID)} พร้อมเข้ารับบริการแล้ว`,
+            });
+          }
+        });
+      }
+    }
+
+    setPrevStatus(queueData.Status);
+  }, [queueData]);
 
   if (loading) {
     return (

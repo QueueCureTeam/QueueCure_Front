@@ -32,7 +32,7 @@ export default function Navbar() {
     <nav className="sticky top-0 z-50 bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 text-gray-100 shadow-xl">
       <div className="flex justify-between px-6 py-4">
         <div className="shrink-0 flex items-center">
-          <Image src={logoUrl} alt="logo" width={40} height={40} priority />
+          <Link href="/"><Image src={logoUrl} alt="logo" width={40} height={40} priority /></Link>
         </div>
         <div className="hidden sm:flex gap-3">
           <Link href="/" className="flex items-center gap-2 rounded-xl px-3 py-2 text-shadow-xs text-shadow-blue-800 hover:bg-white/10 hover:shadow-lg transition-all duration-200">
