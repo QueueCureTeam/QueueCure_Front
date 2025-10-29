@@ -16,6 +16,7 @@ export default function Navbar() {
     localStorage.removeItem("id_token");
     setUser(false);
     setOpen(false);
+    window.location.reload();
   };
 
   useEffect(() => {
@@ -51,10 +52,6 @@ export default function Navbar() {
               <a href="http://localhost:3000/auth/login" className="flex items-center gap-2 rounded-xl px-3 py-2 bg-white/20 text-gray-100 shadow-lg hover:bg-white hover:text-blue-600 transition-all duration-200">
                 <FaUserPlus />
                 <span>สมัครสมาชิก</span>
-              </a>
-              <a href="http://localhost:3000/auth/logout" className="flex items-center gap-2 rounded-xl px-3 py-2 bg-white/20 text-gray-100 shadow-lg hover:bg-white hover:text-blue-600 transition-all duration-200">
-                <FaUserPlus />
-                <span>ออกจากระบบ</span>
               </a>
             </>
           ) : (
@@ -115,10 +112,14 @@ export default function Navbar() {
                 <FaUserEdit />
                 <span>โปรไฟล์</span>
               </Link>
-              <a href="#" onClick={handleLogout} className="flex items-center gap-2 px-6 py-4 border-l-4 border-transparent text-red-300 text-shadow-xs hover:border-red-300 hover:bg-red-500/20 transition">
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-2 px-6 py-4 border-l-4 border-transparent text-red-300 text-shadow-xs hover:border-red-300 hover:bg-red-500/20 transition"
+              >
                 <FaSignOutAlt />
                 <span>ออกจากระบบ</span>
-              </a>
+              </button>
+
             </>
           )}
         </div>
