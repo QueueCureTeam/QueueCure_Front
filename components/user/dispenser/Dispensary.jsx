@@ -134,7 +134,7 @@ export default function Dispensary() {
           </h3>
           <div className="flex justify-center">
             <Link
-              href={`/test_dispenser/${patientData.PatientID}`}
+              href={`/dispenser/${patientData.PatientID}`}
               className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-lg transition-transform transform hover:scale-105"
             >
               <FaPlus />

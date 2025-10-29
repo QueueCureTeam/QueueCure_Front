@@ -1,3 +1,4 @@
+"use client"
 import PatientDispenseTable from '../../../components/user/dispenser/Dispenser'; 
 import { useRouter } from "next/navigation";
 import RoleChecker from "../../../components/common/RoleChecker";
