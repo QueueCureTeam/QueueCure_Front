@@ -59,7 +59,7 @@ export default function Dashboard() {
 
     const patientNameMatch = item.PatientName?.toLowerCase().includes(searchTermLower) || false;
     const queueIdMatch = queueIdFormatted.includes(searchTermLower);
-    const searchMatch = searchFilter === "" || queueIdMatch || patientNameMatch; // ถ้าช่องค้นหาว่าง ก็ให้ผ่าน
+    const searchMatch = searchFilter === "" || queueIdMatch || patientNameMatch;
 
     return statusMatch && searchMatch;
   });
