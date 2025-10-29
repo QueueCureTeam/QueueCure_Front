@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { FaArrowLeft } from "react-icons/fa";
 import StatusMapper from "../../common/StatusMapper";
 import Link from "next/link";
+import Image from "next/image";
 import RoleChecker from "../../common/RoleChecker"; // ตรวจสอบ path ให้ถูกต้อง
 
 export default function QueueDetailPage() {
@@ -20,12 +21,14 @@ export default function QueueDetailPage() {
   const [isEditing, setIsEditing] = useState(false);
   const [userRole, setUserRole] = useState(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [calculatedTime, setCalculatedTime] = useState({
     estimatedTime: "-",
     remainingMinutes: 0,
   });
 
   const token = typeof window !== "undefined" ? localStorage.getItem("id_token") : null;
+  const qrCodeUrl = "https://queuequres3.s3.us-east-1.amazonaws.com/public/Qrcode_payment.png";
 
   function formatQueueID(id) {
     return `A${id.toString().padStart(3, '0')}`;
@@ -181,7 +184,11 @@ export default function QueueDetailPage() {
 
 
   const handlePayment = () => {
-    alert("ยังไม่เชื่อมต่อระบบชำระเงิน");
+    setShowPaymentModal(true);
+  };
+
+  const closePaymentModal = () => {
+    setShowPaymentModal(false);
   };
 
   useEffect(() => {
@@ -406,14 +413,21 @@ export default function QueueDetailPage() {
                 )}
 
 
-                {(role !== 'pharmacist' && role !== 'doctor') && (
+                {/* {(role !== 'pharmacist' && role !== 'doctor') && (
                   <button 
                     onClick={handlePayment}
                     className="w-full py-3 cursor-pointer bg-green-500 hover:bg-green-700 text-white font-bold text-lg rounded-xl shadow-md transition-colors"
                   >
                     ชำระเงิน
                   </button>
-                )}
+                )} */}
+
+                  <button 
+                    onClick={handlePayment}
+                    className="w-full py-3 cursor-pointer bg-green-500 hover:bg-green-700 text-white font-bold text-lg rounded-xl shadow-md transition-colors"
+                  >
+                    ชำระเงิน
+                  </button>
 
                 {role === 'doctor' && (
                   <button 
@@ -471,7 +485,51 @@ export default function QueueDetailPage() {
                     </div>
                     </div>
                 </div>
-                )}
+              )}
+
+              {/* แสดง qrcode ชำระเงิน */}
+              {showPaymentModal && (
+              <div className="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                <div className="bg-white rounded-2xl shadow-xl max-w-md w-full p-6">
+                  <div className="text-center">
+                    
+                    <h3 className="text-lg font-bold text-gray-900 mb-4">
+                      สแกน QR Code เพื่อชำระเงิน
+                    </h3>
+                    
+                    <p className="text-gray-600 mb-4">
+                      ชื่อบัญชี นายยอดรัก สลักใจ
+                    </p>
+
+                    <p className="text-gray-600 mb-4">
+                      {/* ดึงยอดชำระมาใส่ที่ xxx */}
+                      ยอดชำระ: <span className="font-bold text-blue-600">400.00 บาท</span>
+                    </p>
+
+                    <div className="relative w-64 h-64 mx-auto border-4 border-gray-300 rounded-lg overflow-hidden">
+                      <Image
+                        src={qrCodeUrl}
+                        alt="Payment QR Code"
+                        layout="fill"
+                        objectFit="contain"
+                        priority
+                      />
+                    </div>
+
+                    {/* ปุ่มปิด */}
+                    <div className="flex gap-3 justify-center mt-6">
+                      <button
+                        onClick={closePaymentModal}
+                        className="px-6 py-2 bg-blue-600 cursor-pointer hover:bg-blue-300 text-white font-medium rounded-lg transition duration-200"
+                      >
+                        ปิด
+                      </button>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            )}
             </div>
           </div>
         </div>

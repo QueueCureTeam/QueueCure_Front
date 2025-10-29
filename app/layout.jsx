@@ -1,6 +1,7 @@
 import "./globals.css";
 import { Kanit } from 'next/font/google';
 import Navbar from "../components/common/Navbar";
+import Image from "next/image";
 
 const kanit = Kanit({
   subsets: ['latin'],
@@ -8,10 +9,16 @@ const kanit = Kanit({
   style: ['normal'],
   display: 'swap',
 });
+const logo = "https://queuequres3.s3.us-east-1.amazonaws.com/public/QueueCure_logo+(2).png"
 
 export const metadata = {
-  title: "QueueCure",
-  description: "",
+  title: 'QueueCure',
+  description: '',
+  icons: {
+    icon: 'https://queuequres3.s3.us-east-1.amazonaws.com/public/QueueCure_logo+(2).png',
+    shortcut: 'https://queuequres3.s3.us-east-1.amazonaws.com/public/QueueCure_logo+(2).png',
+    apple: 'https://queuequres3.s3.us-east-1.amazonaws.com/public/QueueCure_logo+(2).png',
+  },
 };
 
 export default function RootLayout({ children }) {
