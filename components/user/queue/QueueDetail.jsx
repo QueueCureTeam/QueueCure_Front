@@ -421,10 +421,6 @@ export default function QueueDetailPage() {
                     ชำระเงิน
                   </button>
                 )}
-<<<<<<< HEAD
-
-=======
->>>>>>> 29e4798aa1ded69fd9075b1f09aebc10eae8e56f
 
                 {role === 'doctor' && (
                   <button 
