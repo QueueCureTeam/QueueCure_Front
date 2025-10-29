@@ -13,7 +13,7 @@ export default function AuthSuccess() {
     if (id_token && access_token) {
       localStorage.setItem("id_token", id_token);
       localStorage.setItem("access_token", access_token);
-      router.replace("/");
+      window.location.href = "/"; //refresh page ตอนเข้าสู่ระบบสำเร็จ
     }
   }, [searchParams, router]);
 

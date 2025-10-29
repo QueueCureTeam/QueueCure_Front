@@ -11,6 +11,13 @@ export default function Navbar() {
   const toggleMenu = () => setOpen((prev) => !prev);
   const logoUrl = "https://queuequres3.s3.us-east-1.amazonaws.com/public/QueueCure_logo+(2).png";
 
+  const handleLogout = () => {
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("id_token");
+    setUser(false);
+    setOpen(false);
+  };
+
   useEffect(() => {
     const token = localStorage.getItem("access_token");
     if (token) {
@@ -57,7 +64,7 @@ export default function Navbar() {
                   <span>โปรไฟล์</span>
                 </Link>
                 <hr className="my-1 border-gray-100" />
-                <button className="w-full text-left flex items-center gap-2 px-3 py-2 rounded-md text-sm text-red-600 hover:bg-red-50">
+                <button onClick={handleLogout} className="w-full text-left flex items-center gap-2 px-3 py-2 rounded-md text-sm text-red-600 hover:bg-red-50">
                   <FaSignOutAlt />
                   <span>ออกจากระบบ</span>
                 </button>
@@ -104,7 +111,7 @@ export default function Navbar() {
                 <FaUserEdit />
                 <span>โปรไฟล์</span>
               </Link>
-              <a href="#" className="flex items-center gap-2 px-6 py-4 border-l-4 border-transparent text-red-300 text-shadow-xs hover:border-red-300 hover:bg-red-500/20 transition">
+              <a href="#" onClick={handleLogout} className="flex items-center gap-2 px-6 py-4 border-l-4 border-transparent text-red-300 text-shadow-xs hover:border-red-300 hover:bg-red-500/20 transition">
                 <FaSignOutAlt />
                 <span>ออกจากระบบ</span>
               </a>
