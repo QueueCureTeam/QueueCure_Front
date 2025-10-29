@@ -15,9 +15,9 @@ export const metadata = {
   title: 'QueueCure',
   description: '',
   icons: {
-    icon: 'https://queuequres3.s3.us-east-1.amazonaws.com/public/QueueCure_logo+(2).png',
-    shortcut: 'https://queuequres3.s3.us-east-1.amazonaws.com/public/QueueCure_logo+(2).png',
-    apple: 'https://queuequres3.s3.us-east-1.amazonaws.com/public/QueueCure_logo+(2).png',
+    icon: logo,
+    shortcut: logo,
+    apple: logo
   },
 };
 
