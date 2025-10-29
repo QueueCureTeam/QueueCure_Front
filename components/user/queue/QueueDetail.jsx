@@ -413,21 +413,15 @@ export default function QueueDetailPage() {
                 )}
 
 
-                {/* {(role !== 'pharmacist' && role !== 'doctor') && (
+                {(role !== 'pharmacist' && role !== 'doctor') && (
                   <button 
                     onClick={handlePayment}
                     className="w-full py-3 cursor-pointer bg-green-500 hover:bg-green-700 text-white font-bold text-lg rounded-xl shadow-md transition-colors"
                   >
                     ชำระเงิน
                   </button>
-                )} */}
+                )}
 
-                  <button 
-                    onClick={handlePayment}
-                    className="w-full py-3 cursor-pointer bg-green-500 hover:bg-green-700 text-white font-bold text-lg rounded-xl shadow-md transition-colors"
-                  >
-                    ชำระเงิน
-                  </button>
 
                 {role === 'doctor' && (
                   <button 
