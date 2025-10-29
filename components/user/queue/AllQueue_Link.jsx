@@ -1,5 +1,5 @@
 "use client";
-import QueueTable from "./QueueTable_link";
+import QueueTable from "./QueueTable";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { FaAngleDoubleRight } from "react-icons/fa";
