@@ -7,7 +7,7 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [user] = useState(false);
   const toggleMenu = () => setOpen((prev) => !prev);
-  const logoUrl = "https://queuequres3.s3.us-east-1.amazonaws.com/public/QueueCure.png"
+  const logoUrl = "https://queuequres3.s3.us-east-1.amazonaws.com/public/QueueCure_logo+(2).png";
 
   return (
     <nav className="sticky top-0 z-50 bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 text-gray-100 shadow-xl">
