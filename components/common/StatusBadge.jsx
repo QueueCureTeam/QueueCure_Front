@@ -23,6 +23,11 @@ export default function StatusBadge({status}) {
             dotColor = "bg-blue-500"
             text = "กำลังจัดส่ง";
             break;
+        case "done":
+            bgColor = "bg-gray-50 border-gray-200 text-gray-700"
+            dotColor = "bg-gray-500"
+            text = "เสร็จสิ้น";
+            break;
         default: 
             bgColor = "bg-gray-50 border-gray-200 text-gray-700";
             dotColor = "bg-gray-400";

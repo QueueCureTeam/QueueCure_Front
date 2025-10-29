@@ -13,6 +13,9 @@ export default function StatusBadge({status}) {
         case "delivery":
             text = "กำลังจัดส่ง";
             break;
+        case "done":
+            text = "เสร็จสิ้น";
+            break;
         default: 
             text = "ไม่ทราบสถานะ";
             break;

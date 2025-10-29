@@ -202,7 +202,8 @@ export default function QueueDetailPage() {
     { value: "waiting", label: "อยู่ในคิว" },
     { value: "preparing", label: "กำลังจัดเตรียม" },
     { value: "ready", label: "ถึงคิวแล้ว" },
-    { value: "delivery", label: "บริการจัดส่ง" }
+    { value: "delivery", label: "บริการจัดส่ง" },
+    { value: "done", label: "เสร็จสิ้น" }
   ];
 
   const patientCanChangeOption = queue.Status === "waiting" || !queue.Status;
@@ -229,7 +230,9 @@ export default function QueueDetailPage() {
               <div key={queue.QueueID} className="bg-gray-50 rounded-xl p-4 border border-gray-200 space-y-2">
                 <p>
                   <span className="font-semibold">เวลารับยาโดยประมาณ :</span>{" "}
-                  {queue.Status === "delivery"
+                  {queue.Status === "done"
+                    ? "เสร็จสิ้น"
+                    : queue.Status === "delivery"
                     ? "ประมาณ 2 วัน"
                     : `${calculatedTime.estimatedTime} (${calculatedTime.remainingMinutes} นาที)`}
                 </p>
