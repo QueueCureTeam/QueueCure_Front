@@ -11,7 +11,7 @@ export default function Patient() {
     <RoleChecker
       onRoleDetected={(role) => {
         if (role !== "doctor") {
-          router.push("/test_queue");
+          router.push("/");
         }
       }}
     >
