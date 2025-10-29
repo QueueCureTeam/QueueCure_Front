@@ -16,7 +16,7 @@ export default function Graph() {
 
   useEffect(() => {
   fetchData();
-}, [selectedFilter]); // <--- dependency
+}, [selectedFilter]); 
 
 
 

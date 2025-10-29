@@ -4,6 +4,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { FaAngleDoubleRight } from "react-icons/fa";
 import { LuRefreshCcw } from "react-icons/lu";
+import RoleChecker from "../../common/RoleChecker";
+
 
 function formatTime(date) {
   const options = { 
@@ -90,14 +92,22 @@ export default function AllQueue_Link() {
           </div>
 
             <div className="overflow-x-auto">
-                {loading ? (
+              {loading ? (
                 <div className="p-6 text-center text-gray-500">กำลังโหลดข้อมูล...</div>
-                ) : error ? (
+              ) : error ? (
                 <div className="p-6 text-center text-red-500">เกิดข้อผิดพลาด: {error}</div>
-                ) : (
-                <QueueTable data={queueData} showButton={false} />
-                )}
+              ) : (
+                <RoleChecker>
+                  {(userGroup) => {
+                    const filteredData =
+                      userGroup === "doctor" || userGroup === "pharmacist"
+                        ? queueData
+                        : queueData.filter(q => q.Status !== "done");
+                    return <QueueTable data={filteredData} showButton={false} />;
+                  }}
+                </RoleChecker>
+              )}
             </div>
-        </div>
+          </div>
     );
 }

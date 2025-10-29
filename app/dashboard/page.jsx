@@ -1,7 +1,7 @@
 "use client";
 import SearchBar from "../../components/common/SearchBar";
 import Header from "../../components/common/Header";
-import QueueTable from "../../components/user/queue/QueueTable_link";
+import QueueTable from "../../components/user/queue/QueueTable";
 
 import axios from "axios";
 import { useEffect, useState } from "react";
