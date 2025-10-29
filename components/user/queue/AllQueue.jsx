@@ -1,21 +1,9 @@
-import QueueStatus from "./QueueStatus";
+"use client";
 import QueueTable from "./QueueTable";
-
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { FaAngleDoubleRight } from "react-icons/fa";
 import { LuRefreshCcw } from "react-icons/lu";
-
-const queueData = [
-    { id: "A001", status: "ถึงคิวแล้ว", time: "-", type: "ready" },
-    { id: "A002", status: "กำลังจัดเตรียม", time: "5 นาที", type: "preparing" },
-    { id: "A003", status: "อยู่ในคิว", time: "10 นาที", type: "waiting" },
-    { id: "A004", status: "ถึงคิวแล้ว", time: "-", type: "ready" },
-    { id: "A005", status: "กำลังจัดเตรียม", time: "3 นาที", type: "preparing" },
-    { id: "A006", status: "อยู่ในคิว", time: "8 นาที", type: "waiting" },
-    { id: "A007", status: "ถึงคิวแล้ว", time: "-", type: "ready" },
-    { id: "A008", status: "กำลังจัดเตรียม", time: "7 นาที", type: "preparing" },
-    { id: "A009", status: "อยู่ในคิว", time: "12 นาที", type: "waiting" },
-    { id: "A010", status: "กำลังจัดเตรียม", time: "2 นาที", type: "preparing" },
-];
 
 function formatTime(date) {
   const options = { 
@@ -26,9 +14,36 @@ function formatTime(date) {
   return date.toLocaleTimeString('th-TH', options);
 }
 
-export default function AllQueue() {
+export default function AllQueue_Link() {
+    const [queueData, setQueueData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const currentTime = new Date();
     const timeString = formatTime(currentTime);
+
+    const fetchQueueData = async () => {
+        try {
+        setLoading(true);
+        const res = await axios.get("http://localhost:3000/api/queue");
+        const list = res.data;
+            setQueueData(list);
+            setError(null);
+        } catch (err) {
+            console.error("Error fetching queue data:", err);
+            setError(err.response?.data?.message || err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchQueueData();
+    }, []);
+
+    const waitingCount = queueData.filter(q => q.Status === "waiting").length;
+    const preparingCount = queueData.filter(q => q.Status === "preparing").length;
+    const readyCount = queueData.filter(q => q.Status === "ready").length;
+    const deliveryCount = queueData.filter(q => q.Status === "delivery").length;
 
     return (
         <div className="w-full bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
@@ -42,9 +57,46 @@ export default function AllQueue() {
                     <span className="text-sm">อัพเดทล่าสุด: {timeString} น.</span>
                 </div>
             </div>
-            <QueueStatus />
+            <div className="bg-gradient-to-b from-blue-50 to-white tracking-widest">
+            <div className="flex flex-col sm:flex-row justify-center gap-4 p-4 text-center">
+              <div className="flex-1 flex flex-col items-center px-3 py-6 border-2 border-green-300 rounded-2xl bg-green-50 space-y-1">
+                <span className="text-sm text-green-700">ถึงคิวแล้ว</span>
+                <span className="text-3xl font-bold text-green-800">
+                  {readyCount}
+                </span>
+              </div>
+
+              <div className="flex-1 flex flex-col items-center px-3 py-6 border-2 border-yellow-300 rounded-2xl bg-yellow-50 space-y-1">
+                <span className="text-sm text-yellow-700">กำลังจัดเตรียม</span>
+                <span className="text-3xl font-bold text-yellow-800">
+                  {preparingCount}
+                </span>
+              </div>
+
+              <div className="flex-1 flex flex-col items-center px-3 py-6 border-2 border-red-300 rounded-2xl bg-red-50 space-y-1">
+                <span className="text-sm text-red-700">อยู่ในคิว</span>
+                <span className="text-3xl font-bold text-red-800">
+                  {waitingCount}
+                </span>
+              </div>
+
+              <div className="flex-1 flex flex-col items-center px-3 py-6 border-2 border-blue-300 rounded-2xl bg-blue-50 space-y-1">
+                <span className="text-sm text-blue-500">จัดส่ง</span>
+                <span className="text-3xl font-bold text-blue-600">
+                  {deliveryCount}
+                </span>
+              </div>
+            </div>
+          </div>
+
             <div className="overflow-x-auto">
+                {loading ? (
+                <div className="p-6 text-center text-gray-500">กำลังโหลดข้อมูล...</div>
+                ) : error ? (
+                <div className="p-6 text-center text-red-500">เกิดข้อผิดพลาด: {error}</div>
+                ) : (
                 <QueueTable data={queueData} showButton={false} />
+                )}
             </div>
         </div>
     );
