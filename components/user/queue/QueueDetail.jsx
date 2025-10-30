@@ -84,7 +84,7 @@ export default function QueueDetailPage() {
         },
       });
       alert("คิวถูกลบเรียบร้อยแล้ว");
-      router.push("/test_dashboard");
+      router.push("/dashboard");
     } catch (err) {
       alert("เกิดข้อผิดพลาดในการลบคิว");
       console.error("Error deleting queue:", err);
@@ -491,7 +491,7 @@ export default function QueueDetailPage() {
                     </h3>
                     
                     <p className="text-gray-600 mb-4">
-                      ชื่อบัญชี นายยอดรัก สลักใจ
+                      ชื่อบัญชี xxxx - xxxx
                     </p>
 
                     <p className="text-gray-600 mb-4">

@@ -4,6 +4,7 @@ import {FaHome, FaInfoCircle, FaUserCircle, FaSignInAlt, FaUserPlus, FaBars, FaT
 import Image from 'next/image';
 import { useEffect } from "react";
 import Link from 'next/link';
+import RoleChecker from "../../components/common/RoleChecker";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -58,13 +59,20 @@ export default function Navbar() {
           ) : (
             <div className="relative group flex items-center border-l border-white/40 pl-4 drop-shadow-xl">
               <Link href="/profile"><FaUserCircle size={40} /></Link>
-              <div className="absolute top-full right-0 w-48 bg-white rounded-lg shadow-xl text-gray-800 p-2 z-10 
-                            hidden group-hover:block transition-all opacity-0 group-hover:opacity-100">
-                
-                <Link href="/profile" className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-gray-100 text-sm">
-                  <FaUserEdit />
-                  <span>โปรไฟล์</span>
-                </Link>
+                <div className="absolute top-full right-0 w-48 bg-white rounded-lg shadow-xl text-gray-800 p-2 z-10 
+                              hidden group-hover:block transition-all opacity-0 group-hover:opacity-100">
+                <RoleChecker>
+                  {(role) => (
+                    role !== "pharmacist" && role !== "doctor" ? (
+                  <Link href="/profile" className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-gray-100 text-sm">
+                    <FaUserEdit />
+                        <span>โปรไฟล์</span>
+                      </Link> ) : (
+                      <span>{role}</span>
+                    )
+                    )}
+                  </RoleChecker> 
+                  
                 <hr className="my-1 border-gray-100" />
                 <button onClick={handleLogout} className="w-full text-left flex items-center gap-2 px-3 py-2 rounded-md text-sm text-red-600 hover:bg-red-50">
                   <FaSignOutAlt />

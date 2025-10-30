@@ -10,6 +10,7 @@ import { FaHospitalUser } from "react-icons/fa6";
 import { LuRefreshCcw } from "react-icons/lu";
 import { useRouter } from "next/navigation";
 import RoleChecker from "../../components/common/RoleChecker";
+import Link from "next/link";
 
 function formatTime(date) {
   const options = {
@@ -100,7 +101,11 @@ export default function Dashboard() {
                           <div className="text-5xl font-bold text-gray-700 text-shadow-md">{queueData.length}</div>
                         </div>
                       </div>
-                      <button className="w-full py-4 cursor-pointer flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 transition-colors text-white text-xl font-bold tracking-wide rounded-2xl shadow-md"><FaChartBar /> ดูรายการสถิติ</button>
+                      <Link
+                        href={`/graph`}
+                      >
+                        <button className="w-full py-4 cursor-pointer flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 transition-colors text-white text-xl font-bold tracking-wide rounded-2xl shadow-md"><FaChartBar /> ดูรายการสถิติ</button>
+                      </Link>
                     </div>
                   </div>
                   <div className="col-span-3">

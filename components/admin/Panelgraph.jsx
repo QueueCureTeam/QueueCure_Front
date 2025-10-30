@@ -107,7 +107,7 @@ export default function Graph() {
       </div>
 
       <div className="w-full max-w-5xl mt-6">
-        <Link href="/" className="flex items-center gap-2 text-gray-600 hover:text-blue-700 font-semibold transition">
+        <Link href="/dashboard" className="flex items-center gap-2 text-gray-600 hover:text-blue-700 font-semibold transition">
           <FaArrowLeft />
           <span>back</span>
         </Link>

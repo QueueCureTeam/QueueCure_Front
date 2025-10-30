@@ -27,7 +27,10 @@ export default function ProfilePage() {
   const idToken = typeof window !== "undefined" ? localStorage.getItem("id_token") : null;
 
   useEffect(() => {
-   if (!idToken || role === "doctor" || role === "pharmacist") return;
+   if (!idToken || role === "doctor" || role === "pharmacist") {
+      setLoading(false);
+      return;
+   }
 
     axios 
       .get("http://localhost:3000/api/patient/getProfile", {
@@ -38,7 +41,6 @@ export default function ProfilePage() {
         setLoading(false);
       })
       .catch((err) => {
-        console.error(err);
         setProfile({
           Name: "",
           Surname: "",
@@ -98,17 +100,22 @@ export default function ProfilePage() {
             </div>
           ) : loading ? (
             <div>Loading...</div>
-          ) : (
+          ) : idToken === null ? (
+          (() => {
+            if (typeof window !== "undefined") {
+              window.location.href = "/";
+            }
+            return (
+              <div className="text-center py-20 text-gray-600">
+                กำลังนำคุณกลับหน้าหลัก...
+              </div>
+            );
+          })()
+        ) : (
             <div className="flex justify-center items-center min-h-screen bg-gray-100">
               <div className="bg-white shadow-md rounded-lg p-8 w-100">
-                {/* <div className="flex flex-col items-center">
-                  <FaUserCircle size={80} className="text-gray-400" />
-                  <button className="cursor-pointer mt-4 text-sm bg-gray-200 pl-3 pr-2 py-1 rounded-md flex items-center gap-2">
-                    Edit <FaEdit size={12} />
-                  </button>
-                </div> */}
                 <div className="flex flex-col items-center">
-                  <div className="relative size-24 rounded-full shadow-md"> {/* ⬅️ กรอบรูป */}
+                  <div className="relative size-24 rounded-full shadow-md">
                     <Image
                       src={defaultS3ImageUrl}
                       alt="Profile"
