@@ -9,7 +9,8 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [user,setUser] = useState(false);
   const toggleMenu = () => setOpen((prev) => !prev);
-  const logoUrl = "https://queuequres3.s3.us-east-1.amazonaws.com/public/QueueCure_logo+(2).png";
+
+  const logoUrl = "/logo.png";
 
   const handleLogout = () => {
     localStorage.removeItem("access_token");

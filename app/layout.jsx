@@ -10,7 +10,7 @@ const kanit = Kanit({
   display: 'swap',
 });
 
-const logo = "https://queuequres3.s3.us-east-1.amazonaws.com/public/QueueCure_logo+(2).png"
+const logo = "/logo.png"
 
 export const metadata = {
   title: 'QueueCure',
