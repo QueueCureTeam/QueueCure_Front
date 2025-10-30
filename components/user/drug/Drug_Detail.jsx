@@ -57,12 +57,12 @@ export default function DrugDetail() {
 
         {/* รูปยา */}
         <div className="flex justify-center mb-4">
-          <div className="w-64 h-60 bg-white rounded-xl shadow-inner flex items-center justify-center overflow-hidden">
+          <div className="w-64 h-60 bg-white rounded-xl shadow-inner p-4 flex items-center justify-center overflow-hidden">
             {drug.ImageURL ? (
               <img
                 src={drug.ImageURL}
                 alt={drug.Name}
-                className="object-contain w-full h-full"
+                className="object-cover w-full h-full rounded-xl"
               />
             ) : (
               <img
