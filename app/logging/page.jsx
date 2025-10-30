@@ -1,21 +1,32 @@
 "use client";
-import { useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from 'next/navigation';
+import { Suspense, useEffect } from 'react'; 
 
-export default function AuthSuccess() {
+function LoggingProcessor() {
+  const params = useSearchParams();
   const router = useRouter();
-  const searchParams = useSearchParams();
 
-   useEffect(() => {
-    const id_token = searchParams.get("id_token");
-    const access_token = searchParams.get("access_token");
-
-    if (id_token && access_token) {
-      localStorage.setItem("id_token", id_token);
-      localStorage.setItem("access_token", access_token);
-      window.location.href = "/"; //refresh page ตอนเข้าสู่ระบบสำเร็จ
+  useEffect(() => {
+    const idToken = params.get('id_token');
+    const accessToken = params.get('access_token');
+    
+    if (idToken) {
+      localStorage.setItem("id_token", idToken);
+      localStorage.setItem("access_token", accessToken);
+      
+      router.push('/'); 
+    } else {
+      router.push('/login');
     }
-  }, [searchParams, router]);
+  }, [params, router]); 
 
-  return <p>Logging you in...</p>;
+  return <p>กำลังตรวจสอบการล็อกอิน...</p>;
+}
+
+export default function LoggingPage() {
+  return (
+    <Suspense fallback={<p>กำลังโหลดหน้าล็อกอิน...</p>}>
+      <LoggingProcessor />
+    </Suspense>
+  );
 }
