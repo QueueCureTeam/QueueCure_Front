@@ -10,6 +10,8 @@ export default function QueueTableLink({ data, showButton = true }) {
   const totalPages = Math.ceil(data.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentData = data.slice(startIndex, startIndex + itemsPerPage);
+  const allActiveQueues = data.filter(q => q.Status !== "done");
+  
 
   function formatQueueID(id) {
     return `A${id.toString().padStart(3, "0")}`;
@@ -32,30 +34,34 @@ export default function QueueTableLink({ data, showButton = true }) {
         </thead>
 
         <tbody className="divide-y divide-gray-200">
-          {currentData.map((item, index) => {
-            let formattedTime = "-";
-            let formattedTime2 = "";
-            const readyBefore = data
-              .slice(0, index)
-              .filter((q) => q.Status === "ready").length;
+            {currentData.map((item, index) => { 
+              let formattedTime = "-";
+              let formattedTime2 = "";
 
-            if (item.Status !== "ready") {
-              const waitMinutes = (index - readyBefore + 1) * 5;
-              const now = new Date();
-              const estimatedTime = new Date(now.getTime() + waitMinutes * 60000);
-              const estimatedTime2 = new Date(now.getTime() + (waitMinutes + 5) * 60000);
 
-              formattedTime = estimatedTime.toLocaleTimeString("th-TH", {
-                hour: "2-digit",
-                minute: "2-digit",
-                hour12: false,
-              });
-              formattedTime2 = estimatedTime2.toLocaleTimeString("th-TH", {
-                hour: "2-digit",
-                minute: "2-digit",
-                hour12: false,
-              });
-            }
+              if (item.Status !== "ready" && item.Status !== "done") {
+                const activeIndex = allActiveQueues.findIndex(q => q.QueueID === item.QueueID);
+
+                const readyBefore = allActiveQueues
+                  .slice(0, activeIndex)
+                  .filter(q => q.Status === "ready").length;
+
+                const waitMinutes = (activeIndex - readyBefore + 1) * 5;
+                const now = new Date();
+                const estimatedTime = new Date(now.getTime() + waitMinutes * 60000);
+                const estimatedTime2 = new Date(now.getTime() + (waitMinutes + 5) * 60000);
+
+                formattedTime = estimatedTime.toLocaleTimeString("th-TH", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  hour12: false,
+                });
+                formattedTime2 = estimatedTime2.toLocaleTimeString("th-TH", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  hour12: false,
+                });
+              }
 
             return (
               <tr key={item.QueueID}>

@@ -30,7 +30,7 @@ export default function CurrentQueue() {
 
 
         const current = readyQueues[0] || preparingQueues[0] || waitingQueues[0] || null;
-        const next = waitingQueues[0] || null;
+        const next = waitingQueues[1] || null;
         
         setQueues(calculated);
         setCurrentQueue(current);
@@ -53,42 +53,50 @@ export default function CurrentQueue() {
   }, []);
 
   const calculateTime = (queues) => {
-    const now = new Date();
-    return queues.map((item, index) => {
-      let formattedStart = "-";
-      let formattedEnd = "-";
-      let remainingMinutes = 0;
+  const now = new Date();
 
-      if (item.Status !== "ready") {
-        const readyBefore = queues.slice(0, index).filter(q => q.Status === "ready").length;
-        const waitMinutes = (index - readyBefore + 1) * 5; // ใช้สูตรเดียวกันกับ QueueTableLink
-        
-        const startTime = new Date(now.getTime() + waitMinutes * 60000);
-        const endTime = new Date(now.getTime() + (waitMinutes + 5) * 60000);
+  // เอาเฉพาะคิวที่ไม่ใช่ done
+  const activeQueues = queues.filter(q => q.Status !== "done");
 
-        formattedStart = startTime.toLocaleTimeString("th-TH", {
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: false,
-        });
-        
-        formattedEnd = endTime.toLocaleTimeString("th-TH", {
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: false,
-        });
+  // คำนวณเวลาเรียงจาก activeQueues
+  const calculated = activeQueues.map((item, index) => {
+    const readyBefore = activeQueues.slice(0, index).filter(q => q.Status === "ready").length;
+    const waitMinutes = (index - readyBefore + 1) * 5;
 
-        remainingMinutes = Math.max(0, Math.ceil((endTime - now) / 60000));
-      }
+    const startTime = new Date(now.getTime() + waitMinutes * 60000);
+    const endTime = new Date(now.getTime() + (waitMinutes + 5) * 60000);
 
-      return { 
-        ...item, 
-        formattedStart, 
-        formattedEnd,
-        remainingMinutes 
-      };
+    const formattedStart = startTime.toLocaleTimeString("th-TH", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
     });
-  }
+    const formattedEnd = endTime.toLocaleTimeString("th-TH", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    });
+
+    const remainingMinutes = Math.max(0, Math.ceil((endTime - now) / 60000));
+
+    return {
+      id: item.id,
+      formattedStart,
+      formattedEnd,
+      remainingMinutes,
+    };
+  });
+
+  return queues.map((item) => {
+    if (item.Status === "done") {
+      return { ...item, formattedStart: "-", formattedEnd: "-", remainingMinutes: 0 };
+    }
+
+    const found = calculated.find(c => c.id === item.id);
+    return { ...item, ...found };
+  });
+};
+
 
   if (loading) {
     return (

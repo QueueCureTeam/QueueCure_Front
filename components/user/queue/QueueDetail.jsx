@@ -67,7 +67,6 @@ export default function QueueDetailPage() {
           setPrescriptions([]);
         }
       } catch (err) {
-        console.error("Error fetching queue detail:", err);
         setError(err.response?.data?.message || err.message);
       } finally {
         setLoading(false);
@@ -87,7 +86,6 @@ export default function QueueDetailPage() {
       router.push("/dashboard");
     } catch (err) {
       alert("เกิดข้อผิดพลาดในการลบคิว");
-      console.error("Error deleting queue:", err);
       setError(err.response?.data?.message || err.message);
     }
   };
@@ -119,7 +117,6 @@ export default function QueueDetailPage() {
       setQueue((prev) => ({ ...prev, DeliveryOption: queueOption, Status: newStatus }));
     } catch (err) {
       alert("เกิดข้อผิดพลาดในการแก้ไขคิว");
-      console.error("Error deleting queue:", err);
       setError(err.response?.data?.message || err.message);
     }
   };
@@ -143,7 +140,6 @@ export default function QueueDetailPage() {
       setQueue((prev) => ({ ...prev, Status: status, PharmCounter: pharmCounter }));
     } catch (err) {
       alert("เกิดข้อผิดพลาดในการแก้ไขคิว");
-      console.error("Error deleting queue:", err);
       setError(err.response?.data?.message || err.message);
     }
   };
@@ -178,7 +174,6 @@ export default function QueueDetailPage() {
       }
     }
     } catch (error) {
-      console.error("Error calculating time:", error);
     }
   };
 
@@ -397,18 +392,12 @@ export default function QueueDetailPage() {
                     </div>
 
                     {!patientCanChangeOption && (
+                      <div>
                       <p className="text-sm text-gray-500 mt-2 text-center">
                         ไม่สามารถเปลี่ยนรูปแบบการรับยาได้เนื่องจากคิวถูกดำเนินการแล้ว (สถานะ: {queue.Status})
                       </p>
+                    </div>
                     )}
-
-                    {/* แสดงค่า DeliveryOption ปัจจุบัน */}
-                    <p className="text-sm text-gray-600 mt-3 text-center">
-                      รูปแบบการรับยาปัจจุบัน:{" "}
-                      <span className="font-medium">
-                        {queue.DeliveryOption === "delivery" ? "รับยาที่โรงพยาบาล" : "จัดส่งถึงบ้าน"}
-                      </span>
-                    </p>
                   </div>
                 )}
 

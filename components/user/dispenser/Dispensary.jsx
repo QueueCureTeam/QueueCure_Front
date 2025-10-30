@@ -160,7 +160,7 @@ export default function Dispensary() {
                   </button>
                   <p className="text-lg font-semibold mb-2">
                     <Link
-                        href={`/test_drug/${item.drugId}`}
+                        href={`/drug/${item.drugId}`}
                          className="relative inline-block text-white after:content-[''] hover:after:rounded-full after:absolute after:left-0 after:bottom-0 after:w-0 after:h-[2px] after:bg-white after:transition-all after:duration-300 hover:after:w-full"
                       >{item.name}
                     </Link>
