@@ -69,23 +69,40 @@ export default function PatientQueue() {
         .then(res => res.json())
         .then(allQueues => {
           if (Array.isArray(allQueues)) {
-            const patientIndex = allQueues.findIndex(q => q.QueueID === patientQueue.QueueID);
-            if (patientIndex !== -1) {
-              const readyBefore = allQueues.slice(0, patientIndex).filter(q => q.Status === "ready").length;
-              const waitMinutes = (patientIndex - readyBefore + 1) * 5;
+            const activeQueues = allQueues.filter(q => q.Status !== "done");
+
+            const activeIndex = activeQueues.findIndex(q => q.QueueID === patientQueue.QueueID);
+            if (activeIndex !== -1) {
+              
+              const readyBefore = activeQueues.slice(0, activeIndex).filter(q => q.Status === "ready").length;
+              const waitMinutes = (activeIndex - readyBefore + 1) * 5;
               
               const now = new Date();
-              const estimatedTime = new Date(now.getTime() + (waitMinutes + 5) * 60000);
-              const remainingMinutes = Math.max(0, Math.ceil((estimatedTime - now) / 60000));
+                
+              const startTime = new Date(now.getTime() + waitMinutes * 60000);
+              const endTime = new Date(now.getTime() + (waitMinutes + 5) * 60000);
+
+              const remainingMinutes = Math.max(0, Math.ceil((endTime - now) / 60000));
 
               setCalculatedTime({
-                estimatedTime: estimatedTime.toLocaleTimeString("th-TH", {
+                estimatedTime: startTime.toLocaleTimeString("th-TH", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  hour12: false,
+                }),
+                estimatedEndTime: endTime.toLocaleTimeString("th-TH", {
                   hour: "2-digit",
                   minute: "2-digit",
                   hour12: false,
                 }),
                 remainingMinutes
               });
+            } else {
+                setCalculatedTime({
+                    estimatedTime: "-",
+                    estimatedEndTime: "-",
+                    remainingMinutes: 0
+                });
             }
           }
         });
