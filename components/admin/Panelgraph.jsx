@@ -21,7 +21,7 @@ export default function Graph() {
 
 
   const fetchData = async () => {
-    const res = await axios.get("http://localhost:3000/api/queue");
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/queue`);
     const rawData = res.data;
     const grouped = groupByTime(rawData, selectedFilter);
     setData(grouped);

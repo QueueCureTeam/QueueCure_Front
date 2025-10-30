@@ -47,11 +47,11 @@ export default function Navbar() {
           </Link>
           {!user ? (
             <>
-              <a href="http://localhost:3000/auth/login" className="flex items-center gap-2 rounded-xl px-3 py-2 text-shadow-xs text-shadow-blue-800 hover:bg-white/10 hover:shadow-lg transition-all duration-200">
+              <a href={`${process.env.NEXT_PUBLIC_API_URL}/auth/login`} className="flex items-center gap-2 rounded-xl px-3 py-2 text-shadow-xs text-shadow-blue-800 hover:bg-white/10 hover:shadow-lg transition-all duration-200">
                 <FaSignInAlt />
                 <span>เข้าสู่ระบบ</span>
               </a>
-              <a href="http://localhost:3000/auth/login" className="flex items-center gap-2 rounded-xl px-3 py-2 bg-white/20 text-gray-100 shadow-lg hover:bg-white hover:text-blue-600 transition-all duration-200">
+              <a href={`${process.env.NEXT_PUBLIC_API_URL}/auth/login`} className="flex items-center gap-2 rounded-xl px-3 py-2 bg-white/20 text-gray-100 shadow-lg hover:bg-white hover:text-blue-600 transition-all duration-200">
                 <FaUserPlus />
                 <span>สมัครสมาชิก</span>
               </a>
@@ -105,11 +105,11 @@ export default function Navbar() {
           </Link>
           {!user && (
             <>
-              <a href="http://localhost:3000/auth/login" onClick={toggleMenu} className="flex items-center gap-2 px-6 py-4 border-l-4 border-transparent text-shadow-xs hover:border-white hover:bg-white/10 transition">
+              <a href={`${process.env.NEXT_PUBLIC_API_URL}/auth/login`} onClick={toggleMenu} className="flex items-center gap-2 px-6 py-4 border-l-4 border-transparent text-shadow-xs hover:border-white hover:bg-white/10 transition">
                 <FaSignInAlt />
                 <span>เข้าสู่ระบบ</span>
               </a>
-              <a href="http://localhost:3000/auth/login" onClick={toggleMenu} className="flex items-center gap-2 px-6 py-4 border-l-4 border-transparent text-shadow-xs hover:border-white hover:bg-white/10 transition">
+              <a href={`${process.env.NEXT_PUBLIC_API_URL}/auth/login`} onClick={toggleMenu} className="flex items-center gap-2 px-6 py-4 border-l-4 border-transparent text-shadow-xs hover:border-white hover:bg-white/10 transition">
                 <FaUserPlus />
                 <span>สมัครสมาชิก</span>
               </a>

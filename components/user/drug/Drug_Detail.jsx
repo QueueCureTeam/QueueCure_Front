@@ -12,7 +12,7 @@ export default function DrugDetail() {
   useEffect(() => {
     const fetchDrug = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/api/drug/${id}`, {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/drug/${id}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("id_token")}`,
           },

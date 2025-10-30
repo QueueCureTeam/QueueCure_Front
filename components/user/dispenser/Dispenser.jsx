@@ -21,7 +21,7 @@ export default function PatientDispenseTable() {
   useEffect(() => {
     const fetchDrugs = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/api/drug/getAllDrug`, {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/drug/getAllDrug`, {
           headers: {
             "Authorization": `Bearer ${localStorage.getItem("id_token")}`,
           },

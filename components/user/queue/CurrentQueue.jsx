@@ -18,7 +18,7 @@ export default function CurrentQueue() {
   const fetchQueue = async () => {
     try {
       setLoading(true);
-      const res = await axios.get("http://localhost:3000/api/queue");
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/queue`);
       const data = res.data;
 
       if (Array.isArray(data)) {

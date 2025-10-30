@@ -32,7 +32,7 @@ export default function Patient() {
     setError(null);
     setTimeString(formatTime(new Date()));
     try {
-      const response = await axios.get("http://localhost:3000/api/queue/patients", {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/queue/patients`, {
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${localStorage.getItem("id_token")}`,

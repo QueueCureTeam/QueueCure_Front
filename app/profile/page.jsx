@@ -33,7 +33,7 @@ export default function ProfilePage() {
    }
 
     axios 
-      .get("http://localhost:3000/api/patient/getProfile", {
+      .get(`${process.env.NEXT_PUBLIC_API_URL}/api/patient/getProfile`, {
         headers: { Authorization: `Bearer ${idToken}` },
       })
       .then((res) => {
@@ -69,7 +69,7 @@ export default function ProfilePage() {
     }
 
     axios
-      .put("http://localhost:3000/api/patient/editProfile", profile, {
+      .put(`${process.env.NEXT_PUBLIC_API_URL}/api/patient/editProfile`, profile, {
         headers: {
           Authorization: `Bearer ${idToken}`,
         },

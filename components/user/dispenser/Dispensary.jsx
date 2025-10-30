@@ -28,7 +28,7 @@ export default function Dispensary() {
     if (!id) return;
         const fetchPatientData = async () => {
         try {
-            const res = await axios.get(`http://localhost:3000/api/queue/patients/${id}`, {
+            const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/queue/patients/${id}`, {
             headers: {
                 "Authorization": `Bearer ${token}`,
             },
@@ -54,7 +54,7 @@ export default function Dispensary() {
       try {
         const prescriptionId = `RX${Date.now()}`;
         const prescriptionsRes = await axios.post(
-          "http://localhost:3000/api/prescription/addPrescription",
+          `${process.env.NEXT_PUBLIC_API_URL}/api/prescription/addPrescription`,
           {
             PrescriptionID: prescriptionId,
             prescriptions: prescriptions.map((item) => ({
@@ -69,7 +69,7 @@ export default function Dispensary() {
         );
 
         const queueRes = await axios.post(
-          "http://localhost:3000/api/queue/addQueue",
+          `${process.env.NEXT_PUBLIC_API_URL}/api/queue/addQueue`,
           {
             PatientID: patientData.PatientID,
             PharmCounter: "-",

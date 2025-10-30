@@ -18,7 +18,7 @@ export default function PatientQueue() {
   const fetchPatientQueue = async (cognitoSub) => {
     const token = localStorage.getItem("id_token");
     try {
-      const res = await fetch(`http://localhost:3000/api/queue/self/${cognitoSub}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/queue/self/${cognitoSub}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
@@ -65,7 +65,7 @@ export default function PatientQueue() {
 
   const calculatePatientTime = (patientQueue) => {
     try {
-      fetch('http://localhost:3000/api/queue')
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/queue`)
         .then(res => res.json())
         .then(allQueues => {
           if (Array.isArray(allQueues)) {

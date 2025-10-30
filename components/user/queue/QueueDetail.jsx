@@ -38,7 +38,7 @@ export default function QueueDetailPage() {
     const fetchQueueDetail = async () => {
       try {
         setLoading(true);
-        const res = await axios.get(`http://localhost:3000/api/queue/${id}`, {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/queue/${id}`, {
           headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${token}`,
@@ -55,7 +55,7 @@ export default function QueueDetailPage() {
 
         if (queueData && queueData.PrescriptionID) {
           const presRes = await axios.get(
-            `http://localhost:3000/api/prescription/${queueData.PrescriptionID}`,
+            `${process.env.NEXT_PUBLIC_API_URL}/api/prescription/${queueData.PrescriptionID}`,
             {
               headers: {
                 "Authorization": `Bearer ${token}`,
@@ -77,7 +77,7 @@ export default function QueueDetailPage() {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:3000/api/queue/${id}`, {
+      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/api/queue/${id}`, {
         headers: {
           "Authorization": `Bearer ${token}`,
         },
@@ -100,7 +100,7 @@ export default function QueueDetailPage() {
     try {
       const newStatus = queueOption === "delivery" ? "delivery" : "waiting";
 
-      await axios.put(`http://localhost:3000/api/queue/self/${id}`, 
+      await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/api/queue/self/${id}`, 
         {
           DeliveryOption: queueOption,
           Status: newStatus
@@ -123,7 +123,7 @@ export default function QueueDetailPage() {
 
   const handleEdit = async () => {
     try {
-      await axios.put(`http://localhost:3000/api/queue/${id}`, 
+      await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/api/queue/${id}`, 
         {
           Status: status,
           PharmCounter: pharmCounter,
@@ -146,7 +146,7 @@ export default function QueueDetailPage() {
 
   const calculatePatientTime = async (patientQueue) => {
   try {
-    const res = await fetch("http://localhost:3000/api/queue", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/queue`, {
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`,

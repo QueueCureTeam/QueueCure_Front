@@ -34,7 +34,7 @@ export default function Dashboard() {
     try {
       setTimeString(formatTime(new Date()));
       setLoading(true);
-      const res = await axios.get("http://localhost:3000/api/queue");
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/queue`);
       const list = res.data;
       setQueueData(list);
       setError(null);
