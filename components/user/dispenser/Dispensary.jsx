@@ -30,6 +30,7 @@ export default function Dispensary() {
         try {
             const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/queue/patients/${id}`, {
             headers: {
+                "ngrok-skip-browser-warning" : true,
                 "Authorization": `Bearer ${token}`,
             },
             });
@@ -64,7 +65,7 @@ export default function Dispensary() {
             })),
           },
           {
-            headers: { Authorization: `Bearer ${token}` },
+            headers: { "ngrok-skip-browser-warning" : true, Authorization: `Bearer ${token}` },
           }
         );
 
@@ -76,7 +77,7 @@ export default function Dispensary() {
             PrescriptionID: prescriptionId
           },
           {
-            headers: { Authorization: `Bearer ${token}` },
+            headers: { "ngrok-skip-browser-warning" : true, Authorization: `Bearer ${token}` },
           }
         );
         console.log("Prescription response:", prescriptionsRes.data);

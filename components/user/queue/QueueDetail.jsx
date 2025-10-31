@@ -40,6 +40,7 @@ export default function QueueDetailPage() {
         setLoading(true);
         const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/queue/${id}`, {
           headers: {
+            "ngrok-skip-browser-warning" : true,
             "Content-Type": "application/json",
             "Authorization": `Bearer ${token}`,
           },
@@ -58,6 +59,7 @@ export default function QueueDetailPage() {
             `${process.env.NEXT_PUBLIC_API_URL}/api/prescription/${queueData.PrescriptionID}`,
             {
               headers: {
+                "ngrok-skip-browser-warning" : true,
                 "Authorization": `Bearer ${token}`,
               },
             }
@@ -107,6 +109,7 @@ export default function QueueDetailPage() {
         },
         {
           headers: {
+            "ngrok-skip-browser-warning" : true,
             "Content-Type": "application/json",
             "Authorization": `Bearer ${token}`,
           },
@@ -130,6 +133,7 @@ export default function QueueDetailPage() {
         },
         {
           headers: {
+            "ngrok-skip-browser-warning" : true,
             "Content-Type": "application/json",
             "Authorization": `Bearer ${token}`,
           },
@@ -148,6 +152,7 @@ export default function QueueDetailPage() {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/queue`, {
       headers: {
+        "ngrok-skip-browser-warning" : true,
         "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`,
       },

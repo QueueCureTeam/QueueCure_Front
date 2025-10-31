@@ -34,6 +34,7 @@ export default function Patient() {
     try {
       const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/queue/patients`, {
         headers: {
+          "ngrok-skip-browser-warning" : true,
           "Content-Type": "application/json",
           "Authorization": `Bearer ${localStorage.getItem("id_token")}`,
         },

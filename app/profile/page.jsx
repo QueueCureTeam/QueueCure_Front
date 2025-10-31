@@ -34,7 +34,10 @@ export default function ProfilePage() {
 
     axios 
       .get(`${process.env.NEXT_PUBLIC_API_URL}/api/patient/getProfile`, {
-        headers: { Authorization: `Bearer ${idToken}` },
+        headers: { 
+          "ngrok-skip-browser-warning" : true,
+          Authorization: `Bearer ${idToken}`
+         },
       })
       .then((res) => {
         setProfile(res.data);
@@ -71,6 +74,7 @@ export default function ProfilePage() {
     axios
       .put(`${process.env.NEXT_PUBLIC_API_URL}/api/patient/editProfile`, profile, {
         headers: {
+          "ngrok-skip-browser-warning" : true,
           Authorization: `Bearer ${idToken}`,
         },
       })

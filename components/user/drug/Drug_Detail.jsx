@@ -14,6 +14,7 @@ export default function DrugDetail() {
       try {
         const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/drug/${id}`, {
           headers: {
+            "ngrok-skip-browser-warning" : true,
             Authorization: `Bearer ${localStorage.getItem("id_token")}`,
           },
         });

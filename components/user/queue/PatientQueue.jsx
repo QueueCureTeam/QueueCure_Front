@@ -20,6 +20,7 @@ export default function PatientQueue() {
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/queue/self/${cognitoSub}`, {
         headers: {
+          "ngrok-skip-browser-warning" : true,
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
